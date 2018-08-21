@@ -1,0 +1,3 @@
+*.o
+/release
+/sps30/sps_git_version.c
