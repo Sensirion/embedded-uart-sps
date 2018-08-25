@@ -1,3 +1,4 @@
 *.o
 /release
 /sps30/sps_git_version.c
+/sps30/sps30_example_usage
