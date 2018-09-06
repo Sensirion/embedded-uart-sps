@@ -1,7 +1,7 @@
 sensirion_uart_dir := ../embedded-uart-common
 sps_common_dir := .
 
-CFLAGS := -Wall -I. -I${sensirion_uart_dir} -I${sps_common_dir}
+CFLAGS := -Og -g -Wall -I. -I${sensirion_uart_dir} -I${sps_common_dir}
 
 sensirion_uart_objects := sensirion_uart_implementation.o sensirion_shdlc.o
 sps_common_objects := sps_git_version.o

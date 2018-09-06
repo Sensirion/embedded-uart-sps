@@ -67,22 +67,22 @@ int main(void)
     else
         printf("SPS Serial: %s\n", serial);
 
-    u32 auto_clean;
-    ret = sps30_get_fan_auto_cleaning_interval(&auto_clean);
-    if (ret)
-        printf("error retrieving the auto-clean interval\n");
-    else
-        printf("auto-cleaning interval is %u seconds\n", auto_clean);
+    // u32 auto_clean;
+    // ret = sps30_get_fan_auto_cleaning_interval(&auto_clean);
+    // if (ret)
+    //     printf("error retrieving the auto-clean interval\n");
+    // else
+    //     printf("auto-cleaning interval is %u seconds\n", auto_clean);
 
-    ret = sps30_set_fan_auto_cleaning_interval_days(auto_clean_days);
-    if (ret)
-        printf("error setting the auto-clean interval\n");
+    // ret = sps30_set_fan_auto_cleaning_interval_days(auto_clean_days);
+    // if (ret)
+    //     printf("error setting the auto-clean interval\n");
 
-    ret = sps30_get_fan_auto_cleaning_interval_days(&auto_clean_days);
-    if (ret)
-        printf("error retrieving the auto-clean interval\n");
-    else
-        printf("auto-cleaning interval set to %u days\n", auto_clean_days);
+    // ret = sps30_get_fan_auto_cleaning_interval_days(&auto_clean_days);
+    // if (ret)
+    //     printf("error retrieving the auto-clean interval\n");
+    // else
+    //     printf("auto-cleaning interval set to %u days\n", auto_clean_days);
 
     ret = sps30_start_measurement();
     if (ret < 0)

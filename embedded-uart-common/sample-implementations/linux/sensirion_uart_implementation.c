@@ -88,15 +88,32 @@ s16 sensirion_uart_release() {
 }
 
 s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
+    ssize_t count;
+
     if (uart_fd == -1)
         return -1;
 
-    return write(uart_fd, (void *)data, data_len);
+    printf("%d> ", data_len);
+    for (u16 i = 0; i < data_len; ++i)
+        printf("%02hhx ", data[i]);
+    putchar('\n');
+
+    count = write(uart_fd, (void *)data, data_len);
+    return count;
 }
 
 s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
+    ssize_t count;
+
     if (uart_fd == -1)
         return -1;
 
-    return read(uart_fd, (void *)data, max_data_len);
+    count = read(uart_fd, (void *)data, max_data_len);
+
+    printf("%ld< ", count);
+    for (u16 i = 0; i < count; ++i)
+        printf("%02hhx ", data[i]);
+    putchar('\n');
+
+    return count;
 }
