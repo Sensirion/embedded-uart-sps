@@ -45,7 +45,8 @@ int main(void)
     struct sps30_measurement m;
     char serial[SPS_MAX_SERIAL_LEN];
     u8 auto_clean_days = 4;
-    s8 ret;
+    u32 auto_clean;
+    s16 ret;
 
     while (sensirion_uart_open() != 0) {
         printf("UART init failed\n");
@@ -67,16 +68,15 @@ int main(void)
     else
         printf("SPS Serial: %s\n", serial);
 
-    u32 auto_clean;
     ret = sps30_get_fan_auto_cleaning_interval(&auto_clean);
     if (ret)
-        printf("error retrieving the auto-clean interval\n");
+        printf("error %d retrieving the auto-clean interval\n", ret);
     else
-        printf("auto-cleaning interval is %u seconds\n", auto_clean);
+        printf("auto-cleaning interval is %d seconds\n", auto_clean);
 
     ret = sps30_set_fan_auto_cleaning_interval_days(auto_clean_days);
     if (ret)
-        printf("error setting the auto-clean interval\n");
+        printf("error %d setting the auto-clean interval\n", ret);
 
     ret = sps30_get_fan_auto_cleaning_interval_days(&auto_clean_days);
     if (ret)

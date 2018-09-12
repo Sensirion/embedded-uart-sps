@@ -31,22 +31,66 @@
 #include "sensirion_arch_config.h"
 #include "sensirion_uart.h"
 
+/*
+ * INSTRUCTIONS
+ * ============
+ *
+ * Implement all functions where they are marked with TODO: implement
+ * Follow the function specification in the comments.
+ */
+
+/**
+ * sensirion_uart_open() - initialize UART
+ *
+ * Return:      0 on success, an error code otherwise
+ */
 s16 sensirion_uart_open() {
-    // TODO: implement, return 0 on success
-    return -1;
+    return 0;
 }
 
-s16 sensirion_uart_release() {
-    // TODO: implement, return 0 on success
-    return -1;
+/**
+ * sensirion_uart_close() - release UART resources
+ *
+ * Return:      0 on success, an error code otherwise
+ */
+s16 sensirion_uart_close(){
+    // TODO: implement
+    return 0;
 }
 
+/**
+ * sensirion_uart_tx() - transmit data over UART
+ *
+ * @data_len:   number of bytes to send
+ * @data:       data to send
+ * Return:      Number of bytes sent or a negative error code
+ */
 s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
-    // TODO: implement, return 0 on success
-    return -1;
+    // TODO: implement
+    return 0;
 }
 
+/**
+ * sensirion_uart_rx() - receive data over UART
+ *
+ * @data_len:   max number of bytes to receive
+ * @data:       Memory where received data is stored
+ * Return:      Number of bytes received or a negative error code
+ */
 s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
-    // TODO: implement, return 0 on success
-    return -1;
+    // TODO: implement
+    return 0;
 }
+
+/**
+ * Sleep for a given number of microseconds. The function should delay the
+ * execution for at least the given time, but may also sleep longer.
+ *
+ * Despite the unit, a <10 millisecond precision is sufficient.
+ *
+ * @param useconds the sleep time in microseconds
+ */
+void sensirion_sleep_usec(u32 useconds) {
+    // TODO: implement
+}
+
