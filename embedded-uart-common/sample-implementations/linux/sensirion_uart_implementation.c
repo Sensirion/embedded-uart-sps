@@ -117,3 +117,6 @@ s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
 
     return count;
 }
+void sensirion_sleep_usec(u32 useconds) {
+    usleep(useconds_t);
+}
