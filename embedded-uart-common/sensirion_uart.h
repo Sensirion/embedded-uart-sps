@@ -57,12 +57,22 @@ s16 sensirion_uart_close();
 s16 sensirion_uart_tx(u16 data_len, const u8 *data);
 
 /**
- * sensirion_uart_xx() - receive data over UART
+ * sensirion_uart_rx() - receive data over UART
  *
  * @data_len:   max number of bytes to receive
  * @data:       Memory where received data is stored
  * Return:      Number of bytes received or a negative error code
  */
 s16 sensirion_uart_rx(u16 max_data_len, u8 *data);
+
+/**
+ * Sleep for a given number of microseconds. The function should delay the
+ * execution for at least the given time, but may also sleep longer.
+ *
+ * Despite the unit, a <10 millisecond precision is sufficient.
+ *
+ * @param useconds the sleep time in microseconds
+ */
+void sensirion_sleep_usec(u32 useconds);
 
 #endif /* SENSIRION_UART_H */

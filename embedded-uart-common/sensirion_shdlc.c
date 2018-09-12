@@ -42,6 +42,8 @@
 /** start/stop + (5 header + 255 data) * 2 because of byte stuffing */
 #define SHDLC_FRAME_MAX_RX_FRAME_SIZE (2 + (5 + 255) * 2)
 
+#define RX_DELAY_US 20000
+
 static u8 sensirion_shdlc_crc(u8 header_sum, u8 data_len, const u8 *data) {
     header_sum += data_len;
 
@@ -100,6 +102,7 @@ s16 sensirion_shdlc_xcv(u8 addr, u8 cmd, u8 tx_data_len, const u8 *tx_data,
     if (ret != 0)
         return ret;
 
+    sensirion_sleep_usec(RX_DELAY_US);
     return sensirion_shdlc_rx(max_rx_data_len, rx_header, rx_data);
 }
 

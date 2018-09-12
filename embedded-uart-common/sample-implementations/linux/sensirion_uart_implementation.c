@@ -100,3 +100,6 @@ s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
 
     return read(uart_fd, (void *)data, max_data_len);
 }
+void sensirion_sleep_usec(u32 useconds) {
+    usleep(useconds);
+}
