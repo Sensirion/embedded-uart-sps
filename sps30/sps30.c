@@ -38,10 +38,12 @@
 #define SPS_CMD_READ_MEASUREMENT 0x03
 #define SPS_CMD_READ_FAN_SPEED 0x40
 #define SPS_CMD_FAN_CLEAN_INTV 0x80
+#define SPS_SUBCMD_READ_FAN_CLEAN_INTV 0x00
 #define SPS_CMD_DEV_INFO 0xd0
 #define SPS_CMD_DEV_INFO_SUBCMD_GET_SERIAL {0x03}
 #define SPS_CMD_RESET 0xd3
 #define SPS_ERR_STATE(state) (SPS_ERR_STATE_MASK | (state))
+#define SPS_CMD_FAN_CLEAN_LENGTH 5
 
 s16 sps30_probe() {
     char serial[SPS_MAX_SERIAL_LEN];
@@ -153,11 +155,11 @@ s16 sps30_read_fan_speed(u16 *fan_rpm) {
 
 s16 sps30_get_fan_auto_cleaning_interval(u32 *interval_seconds) {
     struct sensirion_shdlc_rx_header header;
-    u8 tx_data[] = {0};
+    u8 tx_data[] = {SPS_SUBCMD_READ_FAN_CLEAN_INTV};
     u32 data[1];
     s16 ret;
 
-    ret = sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_READ_FAN_SPEED, sizeof(tx_data),
+    ret = sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_FAN_CLEAN_INTV, sizeof(tx_data),
                               tx_data, sizeof(data), &header,
                               (u8 *)interval_seconds);
     if (ret < 0)
@@ -173,10 +175,12 @@ s16 sps30_get_fan_auto_cleaning_interval(u32 *interval_seconds) {
 
 s16 sps30_set_fan_auto_cleaning_interval(u32 interval_seconds) {
     struct sensirion_shdlc_rx_header header;
-    u32 tx_data[] = {be32_to_cpu(interval_seconds)};
-
+    u8 cleaning_command[SPS_CMD_FAN_CLEAN_LENGTH];
+    u32 value = be32_to_cpu(interval_seconds);
+    cleaning_command[0] = SPS_SUBCMD_READ_FAN_CLEAN_INTV;
+    *((u32 *)&cleaning_command[1]) = value;
     return sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_FAN_CLEAN_INTV,
-                               sizeof(tx_data), (const u8 *)tx_data,
+                               sizeof(cleaning_command), (const u8 *)cleaning_command,
                                sizeof(interval_seconds), &header,
                                (u8 *)&interval_seconds);
 }

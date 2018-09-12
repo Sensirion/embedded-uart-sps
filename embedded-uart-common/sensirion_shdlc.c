@@ -31,6 +31,7 @@
 #include "sensirion_arch_config.h"
 #include "sensirion_uart.h"
 #include "sensirion_shdlc.h"
+#include "sensirion_sw_i2c_gpio.h"
 
 #define SHDLC_START 0x7e
 #define SHDLC_STOP 0x7e
@@ -41,6 +42,8 @@
 
 /** start/stop + (5 header + 255 data) * 2 because of byte stuffing */
 #define SHDLC_FRAME_MAX_RX_FRAME_SIZE (2 + (5 + 255) * 2)
+
+#define TIME_BETWEEN_TX_AND_RX 20000
 
 static u8 sensirion_shdlc_crc(u8 header_sum, u8 data_len, const u8 *data) {
     header_sum += data_len;
@@ -100,6 +103,7 @@ s16 sensirion_shdlc_xcv(u8 addr, u8 cmd, u8 tx_data_len, const u8 *tx_data,
     if (ret != 0)
         return ret;
 
+    sensirion_sleep_usec(TIME_BETWEEN_TX_AND_RX);
     return sensirion_shdlc_rx(max_rx_data_len, rx_header, rx_data);
 }
 
