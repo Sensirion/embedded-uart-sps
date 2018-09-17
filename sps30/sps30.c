@@ -175,11 +175,13 @@ s16 sps30_get_fan_auto_cleaning_interval(u32 *interval_seconds) {
 
 s16 sps30_set_fan_auto_cleaning_interval(u32 interval_seconds) {
     struct sensirion_shdlc_rx_header header;
+    u8 ix;
     u8 cleaning_command[SPS_CMD_FAN_CLEAN_LENGTH];
     u32 value = be32_to_cpu(interval_seconds);
 
     cleaning_command[0] = SPS_SUBCMD_READ_FAN_CLEAN_INTV;
-    *((u32 *)&cleaning_command[1]) = value;
+    for (ix = 0; ix < sizeof(u32); ix++)
+        cleaning_command[ix + 1] = (u8)(value >> (8 * ix));
     return sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_FAN_CLEAN_INTV,
                                sizeof(cleaning_command),
                                (const u8 *)cleaning_command,
