@@ -31,6 +31,10 @@
 #ifndef SENSIRION_SHDLC_H
 #define SENSIRION_SHDLC_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "sensirion_arch_config.h"
 
 #define SENSIRION_SHDLC_ERR_NO_DATA -1
@@ -104,5 +108,9 @@ s16 sensirion_shdlc_xcv(u8 addr, u8 cmd, u8 tx_data_len, const u8 *tx_data,
                         u8 max_rx_data_len,
                         struct sensirion_shdlc_rx_header *rx_header,
                         u8 *rx_data);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SENSIRION_SHDLC_H */

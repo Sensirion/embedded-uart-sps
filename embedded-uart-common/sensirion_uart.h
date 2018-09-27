@@ -31,6 +31,10 @@
 #ifndef SENSIRION_UART_H
 #define SENSIRION_UART_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "sensirion_arch_config.h"
 
 /**
@@ -74,5 +78,9 @@ s16 sensirion_uart_rx(u16 max_data_len, u8 *data);
  * @param useconds the sleep time in microseconds
  */
 void sensirion_sleep_usec(u32 useconds);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SENSIRION_UART_H */

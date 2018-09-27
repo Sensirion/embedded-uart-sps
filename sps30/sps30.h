@@ -31,6 +31,10 @@
 #ifndef SPS30_H
 #define SPS30_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "sensirion_arch_config.h"
 
 #define SPS_MAX_SERIAL_LEN 32
@@ -158,5 +162,9 @@ s16 sps30_set_fan_auto_cleaning_interval_days(u8 interval_days);
  * Return:          0 on success, an error code otherwise
  */
 s16 sps30_reset();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SPS30_H */

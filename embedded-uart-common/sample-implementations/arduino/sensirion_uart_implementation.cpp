@@ -28,16 +28,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// needed for delay() routine
+#include <Arduino.h>
+#include "wiring_private.h" // pinPeripheral() function
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "sensirion_arch_config.h"
 #include "sensirion_uart.h"
 
+#define BAUDRATE 115200  // baud rate of SPS30
+#define PIN_UART_RX 11
+#define PIN_UART_TX 10
+
 /*
- * INSTRUCTIONS
- * ============
- *
- * Implement all functions where they are marked with TODO: implement
- * Follow the function specification in the comments.
+ * Create a new serial interface on pin 10 (TX) and 11 (RX)
+ * Source:
+ * https://learn.adafruit.com/using-atsamd21-sercom-to-add-more-spi-i2c-serial-ports/creating-a-new-serial
  */
+Uart Serial2 (&sercom1, PIN_UART_RX, PIN_UART_TX, SERCOM_RX_PAD_0, 
+              UART_TX_PAD_2);
+
+void SERCOM1_Handler() {
+  Serial2.IrqHandler();
+}
+
 
 /**
  * sensirion_uart_open() - initialize UART
@@ -45,6 +62,13 @@
  * Return:      0 on success, an error code otherwise
  */
 s16 sensirion_uart_open() {
+    Serial2.begin(BAUDRATE);
+    pinPeripheral(PIN_UART_TX, PIO_SERCOM);
+    pinPeripheral(PIN_UART_RX, PIO_SERCOM);
+    
+    while (!Serial) {
+        delay(100);
+    }
     return 0;
 }
 
@@ -54,7 +78,7 @@ s16 sensirion_uart_open() {
  * Return:      0 on success, an error code otherwise
  */
 s16 sensirion_uart_close() {
-    // TODO: implement
+    Serial2.end();
     return 0;
 }
 
@@ -62,12 +86,11 @@ s16 sensirion_uart_close() {
  * sensirion_uart_tx() - transmit data over UART
  *
  * @data_len:   number of bytes to send
- * @data:       data to send
+ * @data:       data to sendv v  
  * Return:      Number of bytes sent or a negative error code
  */
 s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
-    // TODO: implement
-    return 0;
+    return Serial2.write(data, data_len);
 }
 
 /**
@@ -78,8 +101,14 @@ s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
  * Return:      Number of bytes received or a negative error code
  */
 s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
-    // TODO: implement
-    return 0;
+    s16 i = 0;
+    
+    while (Serial2.available() > 0 && i < max_data_len) {
+        data[i] = (u8)Serial2.read();
+        i++;
+    }
+
+    return i;
 }
 
 /**
@@ -91,6 +120,10 @@ s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
  * @param useconds the sleep time in microseconds
  */
 void sensirion_sleep_usec(u32 useconds) {
-    // TODO: implement
+    delay((useconds / 1000) + 1);
 }
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
