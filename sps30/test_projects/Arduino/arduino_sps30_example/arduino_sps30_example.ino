@@ -40,9 +40,9 @@ void setup() {
     while (!Serial) {
       delay(100);
     }
-    
+
     // use built-in LED to show errors
-    sensirion_uart_open(); 
+    sensirion_uart_open();
 }
 
 void loop() {
