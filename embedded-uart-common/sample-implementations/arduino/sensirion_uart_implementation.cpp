@@ -48,7 +48,7 @@ extern "C" {
  * Source:
  * https://learn.adafruit.com/using-atsamd21-sercom-to-add-more-spi-i2c-serial-ports/creating-a-new-serial
  */
-Uart Serial2 (&sercom1, PIN_UART_RX, PIN_UART_TX, SERCOM_RX_PAD_0, 
+Uart Serial2 (&sercom1, PIN_UART_RX, PIN_UART_TX, SERCOM_RX_PAD_0,
               UART_TX_PAD_2);
 
 void SERCOM1_Handler() {
@@ -65,7 +65,7 @@ s16 sensirion_uart_open() {
     Serial2.begin(BAUDRATE);
     pinPeripheral(PIN_UART_TX, PIO_SERCOM);
     pinPeripheral(PIN_UART_RX, PIO_SERCOM);
-    
+
     while (!Serial) {
         delay(100);
     }
@@ -86,7 +86,7 @@ s16 sensirion_uart_close() {
  * sensirion_uart_tx() - transmit data over UART
  *
  * @data_len:   number of bytes to send
- * @data:       data to sendv v  
+ * @data:       data to sendv v
  * Return:      Number of bytes sent or a negative error code
  */
 s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
@@ -102,7 +102,7 @@ s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
  */
 s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
     s16 i = 0;
-    
+
     while (Serial2.available() > 0 && i < max_data_len) {
         data[i] = (u8)Serial2.read();
         i++;
@@ -126,4 +126,3 @@ void sensirion_sleep_usec(u32 useconds) {
 #ifdef __cplusplus
 } // extern "C"
 #endif
-
