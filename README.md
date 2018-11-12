@@ -1,5 +1,5 @@
 # embedded-uart-sps
-This repository contains the embedded driver sources for Sensirion's
+This repository contains the embedded UART driver sources for Sensirion's
 SPS product line.
 
 ## Clone this repository
@@ -30,7 +30,7 @@ You only need to touch the following files:
   `sample-implementations` folder
 
 ## Building the driver
-1. Step into your desired directory (e.g.: `release/sps30`)
+1. Step into your desired directory (e.g.: `release/sps30-uart`)
 2. Adjust sensirion\_arch\_config.h if the `<stdint.h>` header is not available
 3. Implement necessary functions in `*_implementation.c`
 4. make

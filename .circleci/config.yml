@@ -15,4 +15,4 @@ jobs:
       - run:
           name: make driver
           command: |
-              cd release/sps30 && make && make clean && cd -
+              cd release/sps30-uart && make && make clean && cd -
