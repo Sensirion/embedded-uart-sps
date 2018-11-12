@@ -1,4 +1,4 @@
-# embedded-uart-sps
+# embedded-uart-sps [![CircleCI](https://circleci.com/gh/Sensirion/embedded-uart-sps.svg?style=shield)](https://circleci.com/gh/Sensirion/embedded-uart-sps) [![GitHub license](https://img.shields.io/badge/license-BSD3-blue.svg)](https://raw.githubusercontent.com/Sensirion/embedded-uart-sps/master/LICENSE)
 This repository contains the embedded UART driver sources for Sensirion's
 SPS product line.
 
