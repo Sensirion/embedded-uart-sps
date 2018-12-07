@@ -29,6 +29,7 @@
  */
 
 #include "sensirion_shdlc.h"
+#include "sps_git_version.h"
 #include "sps30.h"
 
 #define SPS_ADDR 0x00
@@ -44,6 +45,11 @@
 #define SPS_CMD_RESET 0xd3
 #define SPS_ERR_STATE(state) (SPS_ERR_STATE_MASK | (state))
 #define SPS_CMD_FAN_CLEAN_LENGTH 5
+
+const char *sps_get_driver_version()
+{
+    return SPS_DRV_VERSION_STR;
+}
 
 s16 sps30_probe() {
     char serial[SPS_MAX_SERIAL_LEN];
