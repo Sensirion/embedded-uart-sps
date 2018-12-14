@@ -47,6 +47,11 @@ extern "C" {
  * Create a new serial interface on pin 10 (TX) and 11 (RX)
  * Source:
  * https://learn.adafruit.com/using-atsamd21-sercom-to-add-more-spi-i2c-serial-ports/creating-a-new-serial
+ *
+ * NOTE: The procedure is different for non-SAMD based boards like the Arduino
+ *       Uno where `Serial` is usually shared with the USB connection, thus an
+ *       alternative port may have to be established, e.g. with SoftwareSerial,
+ *       see http://www.fiz-ix.com/2012/12/arduino-uno-with-multiple-software-serial-devices/
  */
 Uart Serial2 (&sercom1, PIN_UART_RX, PIN_UART_TX, SERCOM_RX_PAD_0,
               UART_TX_PAD_2);
