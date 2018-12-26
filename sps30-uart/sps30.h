@@ -57,6 +57,12 @@ struct sps30_measurement {
 };
 
 /**
+ * sps_get_driver_version() - Return the driver version
+ * Return:  Driver version string
+ */
+const char *sps_get_driver_version(void);
+
+/**
  * sps30_probe() - check if SPS sensor is available and initialize it
  *
  * Return:  0 on success, an error code otherwise
