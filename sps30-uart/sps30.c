@@ -33,9 +33,9 @@
 #include "sps30.h"
 
 #define SPS_ADDR 0x00
-#define SPS_CMD_MEASUREMENT 0x00
+#define SPS_CMD_START_MEASUREMENT 0x00
+#define SPS_CMD_STOP_MEASUREMENT 0x01
 #define SPS_SUBCMD_MEASUREMENT_START {0x01, 0x03}
-#define SPS_SUBCMD_MEASUREMENT_STOP {0x00}
 #define SPS_CMD_READ_MEASUREMENT 0x03
 #define SPS_CMD_READ_FAN_SPEED 0x40
 #define SPS_CMD_FAN_CLEAN_INTV 0x80
@@ -78,15 +78,12 @@ s16 sps30_get_serial(char *serial) {
 s16 sps30_start_measurement() {
     u8 param_buf[] = SPS_SUBCMD_MEASUREMENT_START;
 
-    return sensirion_shdlc_tx(SPS_ADDR, SPS_CMD_MEASUREMENT,
+    return sensirion_shdlc_tx(SPS_ADDR, SPS_CMD_START_MEASUREMENT,
                               sizeof(param_buf), param_buf);
 }
 
 s16 sps30_stop_measurement() {
-    u8 param_buf[] = SPS_SUBCMD_MEASUREMENT_STOP;
-
-    return sensirion_shdlc_tx(SPS_ADDR, SPS_CMD_MEASUREMENT,
-                              sizeof(param_buf), param_buf);
+    return sensirion_shdlc_tx(SPS_ADDR, SPS_CMD_STOP_MEASUREMENT, 0, NULL);
 }
 
 s16 sps30_read_measurement(struct sps30_measurement *measurement) {
