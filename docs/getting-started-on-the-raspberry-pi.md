@@ -7,6 +7,13 @@ We will compile the driver on the Raspberry Pi itself so we assume that the
 reader has basic knowledge of the Raspberry Pi, shell access to it and that it
 has a connection to the internet.
 
+The shell code examples below use the following convention:
+
+ * Lines starting with `# ` are comments
+ * Lines starting with `$ ` are commands that should be executed (without the
+   `$` prompt)
+ * Other lines are the expected output from a command
+
 ## Download Driver
 
 Get the latest release from
