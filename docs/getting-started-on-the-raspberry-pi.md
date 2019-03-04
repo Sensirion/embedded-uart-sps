@@ -70,7 +70,6 @@ cc -Wall -I. -I. -I. -c -o sps_git_version.o sps_git_version.c
 cc -Wall -I. -I. -I.   -c -o sps30.o sps30.c
 cc -Wall -I. -I. -I.  -o sps30_example_usage sensirion_uart_implementation.o sensirion_shdlc.o sps_git_version.o sps30.o   sps30_example_usage.c
 $ ./sps30_example_usage
-
 ```
 
 You should see the following output:
@@ -109,5 +108,23 @@ measured values:
 	10.29 nc10.0
 	1.63 typical particle size
 ```
+
+## Troubleshooting
+
+### `SPS sensor probing failed`
+
+If you get the this error message verify that you copied the Linux sample
+implementation and that you have the correct device set. See [Get Port of the
+Connected Sensor](#get-port-of-the-connected-sensor)
+
+### `Error opening UART. Ensure it's not otherwise used` / `UART init failed`
+
+This happens mostly when the UART device does not exist. See [Get Port of the
+Connected Sensor](#get-port-of-the-connected-sensor)
+
+**Note:** It may happen if you unplug and replug the sensor that it gets
+another device assigned (`/dev/ttyUSB1` for example). In that case you either
+need to change the code and compile again or try to replug it and check if the
+device changed back.
 
 [Raspbian image]: https://www.raspberrypi.org/downloads/raspbian/
