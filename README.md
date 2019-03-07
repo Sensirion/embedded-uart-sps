@@ -38,4 +38,8 @@ You only need to touch the following files:
 3. Implement necessary functions in `*_implementation.c`
 4. make
 
+## Getting Started on the Raspberry Pi 3
+
+See [docs/getting-started-on-the-raspberry-pi.md](docs/getting-started-on-the-raspberry-pi.md)
+
 ---
