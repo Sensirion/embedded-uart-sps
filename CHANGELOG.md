@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2019-03-07
+
  * `[added]` `sps_get_driver_version()` (#12)
  * `[fixed]` Send correct command in `sps30_stop_measurement()` (#23)
 
@@ -22,7 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Initial SHDLC UART release
  * Initial SPS30 release
 
-[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/1.0.0...master
+[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/1.1.0...master
+[1.1.0]: https://github.com/Sensirion/embedded-uart-sps/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/Sensirion/embedded-uart-sps/compare/0.9.1...1.0.0
 [0.9.1]: https://github.com/Sensirion/embedded-uart-sps/compare/0.9.0...0.9.1
 [0.9.0]: https://github.com/Sensirion/embedded-uart-sps/releases/tag/0.9.0
