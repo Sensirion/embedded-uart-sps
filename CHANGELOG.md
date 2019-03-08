@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+ * `[fixed]` Rebuild when `sps30_example_usage.c` changed (#30)
+
 ## [1.1.0] - 2019-03-07
 
  * `[added]` `sps_get_driver_version()` (#12)

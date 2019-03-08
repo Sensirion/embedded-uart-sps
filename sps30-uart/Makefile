@@ -22,8 +22,8 @@ sensirion_shdlc.o: ${sensirion_uart_dir}/sensirion_shdlc.c
 
 sps30.o: sensirion_shdlc.o ${sps_common_dir}/sps_git_version.c sps30.h sps30.c
 
-sps30_example_usage: ${sensirion_uart_objects} ${sps_common_objects} sps30.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LOADLIBES) $(LDLIBS) sps30_example_usage.c
+sps30_example_usage: ${sensirion_uart_objects} ${sps_common_objects} sps30.o sps30_example_usage.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LOADLIBES) $(LDLIBS)
 
 clean:
 	$(RM) ${all_objects} ${sps_binaries}
