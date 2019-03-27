@@ -42,7 +42,7 @@
 
 static int uart_fd = -1;
 
-s16 sensirion_uart_open() {
+int16_t sensirion_uart_open() {
     // The flags (defined in fcntl.h):
     //    Access modes (use 1 of these):
     //        O_RDONLY - Open for reading only.
@@ -83,23 +83,23 @@ s16 sensirion_uart_open() {
     return 0;
 }
 
-s16 sensirion_uart_release() {
+int16_t sensirion_uart_release() {
     return close(uart_fd);
 }
 
-s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
+int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
     if (uart_fd == -1)
         return -1;
 
     return write(uart_fd, (void *)data, data_len);
 }
 
-s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
+int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
     if (uart_fd == -1)
         return -1;
 
     return read(uart_fd, (void *)data, max_data_len);
 }
-void sensirion_sleep_usec(u32 useconds) {
+void sensirion_sleep_usec(uint32_t useconds) {
     usleep(useconds);
 }

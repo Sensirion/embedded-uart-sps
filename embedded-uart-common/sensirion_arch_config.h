@@ -44,7 +44,7 @@ extern "C" {
 /**
  * Typedef section for types commonly defined in <stdint.h>
  * If your system does not provide stdint headers, please define them
- * accordingly. Please make sure to define int64_t and uint64_t.
+ * accordingly.
  */
 /* typedef unsigned long long int uint64_t;
  * typedef long long int int64_t;
@@ -55,21 +55,8 @@ extern "C" {
  * typedef char int8_t;
  * typedef unsigned char uint8_t; */
 
-/**
- * Comment out the following block if your platform already provides the
- * type definitions u8, u16, u32, u64, s8, s16, s32, s64.
- */
-typedef int64_t s64;
-typedef uint64_t u64;
-typedef int32_t s32;
-typedef uint32_t u32;
-typedef int16_t s16;
-typedef uint16_t u16;
-typedef int8_t s8;
-typedef uint8_t u8;
-
 /* Types not typically provided by <stdint.h> */
-typedef float f32;
+typedef float float32_t;
 
 /**
  * Define the endianness of your architecture:

@@ -44,7 +44,7 @@
 
 #define RX_DELAY_US 20000
 
-static u8 sensirion_shdlc_crc(u8 header_sum, u8 data_len, const u8 *data) {
+static uint8_t sensirion_shdlc_crc(uint8_t header_sum, uint8_t data_len, const uint8_t *data) {
     header_sum += data_len;
 
     while (data_len--)
@@ -53,11 +53,11 @@ static u8 sensirion_shdlc_crc(u8 header_sum, u8 data_len, const u8 *data) {
     return ~header_sum;
 }
 
-static u16 sensirion_shdlc_stuff_data(u8 data_len, const u8 *data,
-                                      u8 *stuffed_data)
+static uint16_t sensirion_shdlc_stuff_data(uint8_t data_len, const uint8_t *data,
+                                      uint8_t *stuffed_data)
 {
-    u16 output_data_len = 0;
-    u8 c;
+    uint16_t output_data_len = 0;
+    uint8_t c;
 
     while (data_len--) {
         c = *(data++);
@@ -79,11 +79,11 @@ static u16 sensirion_shdlc_stuff_data(u8 data_len, const u8 *data,
     return output_data_len;
 }
 
-static u8 sensirion_shdlc_check_unstuff(u8 data) {
+static uint8_t sensirion_shdlc_check_unstuff(uint8_t data) {
     return data == 0x7d;
 }
 
-static u8 sensirion_shdlc_unstuff_byte(u8 data) {
+static uint8_t sensirion_shdlc_unstuff_byte(uint8_t data) {
     switch (data) {
         case 0x31: return 0x11;
         case 0x33: return 0x13;
@@ -93,11 +93,11 @@ static u8 sensirion_shdlc_unstuff_byte(u8 data) {
     }
 }
 
-s16 sensirion_shdlc_xcv(u8 addr, u8 cmd, u8 tx_data_len, const u8 *tx_data,
-                        u8 max_rx_data_len,
+int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len, const uint8_t *tx_data,
+                        uint8_t max_rx_data_len,
                         struct sensirion_shdlc_rx_header *rx_header,
-                        u8 *rx_data) {
-    s16 ret;
+                        uint8_t *rx_data) {
+    int16_t ret;
 
     ret = sensirion_shdlc_tx(addr, cmd, tx_data_len, tx_data);
     if (ret != 0)
@@ -107,11 +107,11 @@ s16 sensirion_shdlc_xcv(u8 addr, u8 cmd, u8 tx_data_len, const u8 *tx_data,
     return sensirion_shdlc_rx(max_rx_data_len, rx_header, rx_data);
 }
 
-s16 sensirion_shdlc_tx(u8 addr, u8 cmd, u8 data_len, const u8 *data) {
-    u16 len = 0;
-    s16 ret;
-    u8 crc;
-    u8 tx_frame_buf[SHDLC_FRAME_MAX_TX_FRAME_SIZE];
+int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len, const uint8_t *data) {
+    uint16_t len = 0;
+    int16_t ret;
+    uint8_t crc;
+    uint8_t tx_frame_buf[SHDLC_FRAME_MAX_TX_FRAME_SIZE];
 
     crc = sensirion_shdlc_crc(addr + cmd, data_len, data);
 
@@ -131,17 +131,17 @@ s16 sensirion_shdlc_tx(u8 addr, u8 cmd, u8 data_len, const u8 *data) {
     return 0;
 }
 
-s16 sensirion_shdlc_rx(u8 max_data_len, struct sensirion_shdlc_rx_header *rxh,
-                       u8 *data) {
-    u16 len;
-    u16 i;
-    u8 rx_frame[SHDLC_FRAME_MAX_RX_FRAME_SIZE];
-    u8 *rx_header = (u8 *)rxh;
-    u8 j;
-    u8 crc;
-    u8 unstuff_next;
+int16_t sensirion_shdlc_rx(uint8_t max_data_len, struct sensirion_shdlc_rx_header *rxh,
+                       uint8_t *data) {
+    uint16_t len;
+    uint16_t i;
+    uint8_t rx_frame[SHDLC_FRAME_MAX_RX_FRAME_SIZE];
+    uint8_t *rx_header = (uint8_t *)rxh;
+    uint8_t j;
+    uint8_t crc;
+    uint8_t unstuff_next;
 
-    len = sensirion_uart_rx(2 + (5 + (u16)max_data_len) * 2, rx_frame);
+    len = sensirion_uart_rx(2 + (5 + (uint16_t)max_data_len) * 2, rx_frame);
     if (len < 1 || rx_frame[0] != SHDLC_START)
         return SENSIRION_SHDLC_ERR_MISSING_START;
 
