@@ -45,9 +45,9 @@
 int main(void) {
     struct sps30_measurement m;
     char serial[SPS_MAX_SERIAL_LEN];
-    u8 auto_clean_days = 4;
-    u32 auto_clean;
-    s16 ret;
+    uint8_t auto_clean_days = 4;
+    uint32_t auto_clean;
+    int16_t ret;
 
     while (sensirion_uart_open() != 0) {
         printf("UART init failed\n");

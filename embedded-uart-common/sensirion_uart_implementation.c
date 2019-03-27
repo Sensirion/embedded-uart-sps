@@ -45,7 +45,7 @@
  *
  * Return:      0 on success, an error code otherwise
  */
-s16 sensirion_uart_open() {
+int16_t sensirion_uart_open() {
     return 0;
 }
 
@@ -54,7 +54,7 @@ s16 sensirion_uart_open() {
  *
  * Return:      0 on success, an error code otherwise
  */
-s16 sensirion_uart_close() {
+int16_t sensirion_uart_close() {
     // TODO: implement
     return 0;
 }
@@ -66,7 +66,7 @@ s16 sensirion_uart_close() {
  * @data:       data to send
  * Return:      Number of bytes sent or a negative error code
  */
-s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
+int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
     // TODO: implement
     return 0;
 }
@@ -78,7 +78,7 @@ s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
  * @data:       Memory where received data is stored
  * Return:      Number of bytes received or a negative error code
  */
-s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
+int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
     // TODO: implement
     return 0;
 }
@@ -91,6 +91,6 @@ s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
  *
  * @param useconds the sleep time in microseconds
  */
-void sensirion_sleep_usec(u32 useconds) {
+void sensirion_sleep_usec(uint32_t useconds) {
     // TODO: implement
 }
