@@ -70,6 +70,7 @@ static u16 sensirion_shdlc_stuff_data(u8 data_len, const u8 *data,
                 *(stuffed_data++) = 0x7d;
                 *(stuffed_data++) = c ^ (1 << 5);
                 output_data_len += 2;
+                break;
             default:
                 *(stuffed_data++) = c;
                 output_data_len += 1;
@@ -185,7 +186,7 @@ s16 sensirion_shdlc_rx(u8 max_data_len, struct sensirion_shdlc_rx_header *rxh,
 
     crc = rx_frame[i++];
     if (sensirion_shdlc_check_unstuff(crc)) {
-        crc = sensirion_shdlc_unstuff_byte(rx_frame[++i]);
+        crc = sensirion_shdlc_unstuff_byte(rx_frame[i++]);
         if (i >= len)
             return SENSIRION_SHDLC_ERR_MISSING_STOP;
     }
