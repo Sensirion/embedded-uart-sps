@@ -84,7 +84,7 @@ s16 sensirion_shdlc_tx(u8 addr, u8 cmd, u8 data_len, const u8 *data);
  * @data_len:   max data length to receive
  * @header:     Memory where the SHDLC header containing the sender address,
  *              command, sensor state and data length is stored
- * @data:       Memeory where received data is stored
+ * @data:       Memory where received data is stored
  * Return:      0 on success, an error code otherwise
  */
 s16 sensirion_shdlc_rx(u8 max_data_len,
