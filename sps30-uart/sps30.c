@@ -18,36 +18,38 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "sps30.h"
 #include "sensirion_shdlc.h"
 #include "sps_git_version.h"
-#include "sps30.h"
 
 #define SPS_ADDR 0x00
 #define SPS_CMD_START_MEASUREMENT 0x00
 #define SPS_CMD_STOP_MEASUREMENT 0x01
-#define SPS_SUBCMD_MEASUREMENT_START {0x01, 0x03}
+#define SPS_SUBCMD_MEASUREMENT_START                                           \
+    { 0x01, 0x03 }
 #define SPS_CMD_READ_MEASUREMENT 0x03
 #define SPS_CMD_READ_FAN_SPEED 0x40
 #define SPS_CMD_FAN_CLEAN_INTV 0x80
 #define SPS_SUBCMD_READ_FAN_CLEAN_INTV 0x00
 #define SPS_CMD_DEV_INFO 0xd0
-#define SPS_CMD_DEV_INFO_SUBCMD_GET_SERIAL {0x03}
+#define SPS_CMD_DEV_INFO_SUBCMD_GET_SERIAL                                     \
+    { 0x03 }
 #define SPS_CMD_RESET 0xd3
 #define SPS_ERR_STATE(state) (SPS_ERR_STATE_MASK | (state))
 #define SPS_CMD_FAN_CLEAN_LENGTH 5
 
-const char *sps_get_driver_version()
-{
+const char *sps_get_driver_version() {
     return SPS_DRV_VERSION_STR;
 }
 
@@ -63,9 +65,9 @@ s16 sps30_get_serial(char *serial) {
     u8 param_buf[] = SPS_CMD_DEV_INFO_SUBCMD_GET_SERIAL;
     s16 ret;
 
-    ret = sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_DEV_INFO,
-                              sizeof(param_buf), param_buf,
-                              SPS_MAX_SERIAL_LEN, &header, (u8 *)serial);
+    ret = sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_DEV_INFO, sizeof(param_buf),
+                              param_buf, SPS_MAX_SERIAL_LEN, &header,
+                              (u8 *)serial);
     if (ret < 0)
         return ret;
 
@@ -184,11 +186,10 @@ s16 sps30_set_fan_auto_cleaning_interval(u32 interval_seconds) {
     cleaning_command[0] = SPS_SUBCMD_READ_FAN_CLEAN_INTV;
     for (ix = 0; ix < sizeof(u32); ix++)
         cleaning_command[ix + 1] = (u8)(value >> (8 * ix));
-    return sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_FAN_CLEAN_INTV,
-                               sizeof(cleaning_command),
-                               (const u8 *)cleaning_command,
-                               sizeof(interval_seconds), &header,
-                               (u8 *)&interval_seconds);
+    return sensirion_shdlc_xcv(
+        SPS_ADDR, SPS_CMD_FAN_CLEAN_INTV, sizeof(cleaning_command),
+        (const u8 *)cleaning_command, sizeof(interval_seconds), &header,
+        (u8 *)&interval_seconds);
 }
 
 s16 sps30_get_fan_auto_cleaning_interval_days(u8 *interval_days) {
@@ -204,8 +205,8 @@ s16 sps30_get_fan_auto_cleaning_interval_days(u8 *interval_days) {
 }
 
 s16 sps30_set_fan_auto_cleaning_interval_days(u8 interval_days) {
-    return sps30_set_fan_auto_cleaning_interval((u32)interval_days *
-                                                24 * 60 * 60);
+    return sps30_set_fan_auto_cleaning_interval((u32)interval_days * 24 * 60 *
+                                                60);
 }
 
 s16 sps30_reset() {

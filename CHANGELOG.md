@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 * `[added]` `.clang-format` Style-file for clang-format and helper targets
-            `make style-fix` and `make style-check`
+            `make style-fix` and `make style-check` (#36)
 
 ## [1.1.1] - 2019-04-11
 
