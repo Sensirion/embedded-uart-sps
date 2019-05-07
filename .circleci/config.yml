@@ -1,13 +1,18 @@
-version : 2
+version: 2
 
-        jobs : build :
+jobs:
+  build:
 
-    docker : -image : gcc : 5.5
+    docker:
+        - image: gcc:5.5
 
-                      steps
-    : -checkout -
-      run : apt update - run : apt install - y zip - run : make release -
-                                                           run : make -
-                                                                 run : name
-    : make driver command : |
-                            cd release / sps30 - uart &&make &&make clean &&cd -
+    steps:
+      - checkout
+      - run: apt update
+      - run: apt install -y zip
+      - run: make release
+      - run: make
+      - run:
+          name: make driver
+          command: |
+              cd release/sps30-uart && make && make clean && cd -

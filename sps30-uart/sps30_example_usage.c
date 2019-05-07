@@ -18,30 +18,31 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stdio.h> // printf
-#include <unistd.h> // sleep
+#include <stdio.h>   // printf
+#include <unistd.h>  // sleep
 
 #include "sensirion_uart.h"
 #include "sps30.h"
 
 /**
- * TO USE CONSOLE OUTPUT (PRINTF) AND WAIT (SLEEP) PLEASE ADAPT THEM TO YOUR PLATFORM
+ * TO USE CONSOLE OUTPUT (PRINTF) AND WAIT (SLEEP) PLEASE ADAPT THEM TO YOUR
+ * PLATFORM
  */
 //#define printf(...)
 //#define sleep(...)
 
-int main(void)
-{
+int main(void) {
     struct sps30_measurement m;
     char serial[SPS_MAX_SERIAL_LEN];
     uint8_t auto_clean_days = 4;
@@ -97,7 +98,7 @@ int main(void)
         } else {
             if (SPS_IS_ERR_STATE(ret)) {
                 printf("Chip state: %u - measurements may not be accurate\n",
-                        SPS_GET_ERR_STATE(ret));
+                       SPS_GET_ERR_STATE(ret));
             }
 
             printf("measured values:\n"
@@ -111,9 +112,8 @@ int main(void)
                    "\t%0.2f nc4.5\n"
                    "\t%0.2f nc10.0\n"
                    "\t%0.2f typical particle size\n\n",
-                   m.mc_1p0, m.mc_2p5, m.mc_4p0, m.mc_10p0,
-                   m.nc_0p5, m.nc_1p0, m.nc_2p5, m.nc_4p0, m.nc_10p0,
-                   m.typical_particle_size);
+                   m.mc_1p0, m.mc_2p5, m.mc_4p0, m.mc_10p0, m.nc_0p5, m.nc_1p0,
+                   m.nc_2p5, m.nc_4p0, m.nc_10p0, m.typical_particle_size);
         }
 
         sleep(1);
