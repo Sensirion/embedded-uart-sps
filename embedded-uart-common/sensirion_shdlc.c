@@ -18,19 +18,20 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "sensirion_shdlc.h"
 #include "sensirion_arch_config.h"
 #include "sensirion_uart.h"
-#include "sensirion_shdlc.h"
 
 #define SHDLC_START 0x7e
 #define SHDLC_STOP 0x7e
@@ -44,7 +45,8 @@
 
 #define RX_DELAY_US 20000
 
-static uint8_t sensirion_shdlc_crc(uint8_t header_sum, uint8_t data_len, const uint8_t *data) {
+static uint8_t sensirion_shdlc_crc(uint8_t header_sum, uint8_t data_len,
+                                   const uint8_t *data) {
     header_sum += data_len;
 
     while (data_len--)
@@ -53,9 +55,9 @@ static uint8_t sensirion_shdlc_crc(uint8_t header_sum, uint8_t data_len, const u
     return ~header_sum;
 }
 
-static uint16_t sensirion_shdlc_stuff_data(uint8_t data_len, const uint8_t *data,
-                                      uint8_t *stuffed_data)
-{
+static uint16_t sensirion_shdlc_stuff_data(uint8_t data_len,
+                                           const uint8_t *data,
+                                           uint8_t *stuffed_data) {
     uint16_t output_data_len = 0;
     uint8_t c;
 
@@ -85,18 +87,23 @@ static uint8_t sensirion_shdlc_check_unstuff(uint8_t data) {
 
 static uint8_t sensirion_shdlc_unstuff_byte(uint8_t data) {
     switch (data) {
-        case 0x31: return 0x11;
-        case 0x33: return 0x13;
-        case 0x5d: return 0x7d;
-        case 0x5e: return 0x7e;
-        default: return data;
+        case 0x31:
+            return 0x11;
+        case 0x33:
+            return 0x13;
+        case 0x5d:
+            return 0x7d;
+        case 0x5e:
+            return 0x7e;
+        default:
+            return data;
     }
 }
 
-int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len, const uint8_t *tx_data,
-                        uint8_t max_rx_data_len,
-                        struct sensirion_shdlc_rx_header *rx_header,
-                        uint8_t *rx_data) {
+int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len,
+                            const uint8_t *tx_data, uint8_t max_rx_data_len,
+                            struct sensirion_shdlc_rx_header *rx_header,
+                            uint8_t *rx_data) {
     int16_t ret;
 
     ret = sensirion_shdlc_tx(addr, cmd, tx_data_len, tx_data);
@@ -107,7 +114,8 @@ int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len, cons
     return sensirion_shdlc_rx(max_rx_data_len, rx_header, rx_data);
 }
 
-int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len, const uint8_t *data) {
+int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len,
+                           const uint8_t *data) {
     uint16_t len = 0;
     int16_t ret;
     uint8_t crc;
@@ -131,8 +139,9 @@ int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len, const ui
     return 0;
 }
 
-int16_t sensirion_shdlc_rx(uint8_t max_data_len, struct sensirion_shdlc_rx_header *rxh,
-                       uint8_t *data) {
+int16_t sensirion_shdlc_rx(uint8_t max_data_len,
+                           struct sensirion_shdlc_rx_header *rxh,
+                           uint8_t *data) {
     uint16_t len;
     uint16_t i;
     uint8_t rx_frame[SHDLC_FRAME_MAX_RX_FRAME_SIZE];
@@ -145,9 +154,7 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len, struct sensirion_shdlc_rx_heade
     if (len < 1 || rx_frame[0] != SHDLC_START)
         return SENSIRION_SHDLC_ERR_MISSING_START;
 
-    for (unstuff_next = 0, i = 1, j = 0;
-         j < sizeof(*rxh) && i < len - 2;
-         ++i) {
+    for (unstuff_next = 0, i = 1, j = 0; j < sizeof(*rxh) && i < len - 2; ++i) {
         if (unstuff_next) {
             rx_header[j++] = sensirion_shdlc_unstuff_byte(rx_frame[i]);
             unstuff_next = 0;
@@ -160,9 +167,7 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len, struct sensirion_shdlc_rx_heade
     if (j != sizeof(*rxh) || unstuff_next)
         return SENSIRION_SHDLC_ERR_ENCODING_ERROR;
 
-    for (unstuff_next = 0, j = 0;
-         j < rxh->data_len && i < len - 2;
-         ++i) {
+    for (unstuff_next = 0, j = 0; j < rxh->data_len && i < len - 2; ++i) {
         if (unstuff_next) {
             data[j++] = sensirion_shdlc_unstuff_byte(rx_frame[i]);
             unstuff_next = 0;

@@ -18,19 +18,20 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 
 // needed for delay() routine
+#include "wiring_private.h"  // pinPeripheral() function
 #include <Arduino.h>
-#include "wiring_private.h" // pinPeripheral() function
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,15 +52,15 @@ extern "C" {
  * NOTE: The procedure is different for non-SAMD based boards like the Arduino
  *       Uno where `Serial` is usually shared with the USB connection, thus an
  *       alternative port may have to be established, e.g. with SoftwareSerial,
- *       see http://www.fiz-ix.com/2012/12/arduino-uno-with-multiple-software-serial-devices/
+ *       see
+ * http://www.fiz-ix.com/2012/12/arduino-uno-with-multiple-software-serial-devices/
  */
-Uart Serial2 (&sercom1, PIN_UART_RX, PIN_UART_TX, SERCOM_RX_PAD_0,
-              UART_TX_PAD_2);
+Uart Serial2(&sercom1, PIN_UART_RX, PIN_UART_TX, SERCOM_RX_PAD_0,
+             UART_TX_PAD_2);
 
 void SERCOM1_Handler() {
-  Serial2.IrqHandler();
+    Serial2.IrqHandler();
 }
-
 
 /**
  * sensirion_uart_open() - initialize UART
@@ -129,5 +130,5 @@ void sensirion_sleep_usec(uint32_t useconds) {
 }
 
 #ifdef __cplusplus
-} // extern "C"
+}  // extern "C"
 #endif
