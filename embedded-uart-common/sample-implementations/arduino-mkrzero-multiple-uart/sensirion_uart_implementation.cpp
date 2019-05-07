@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, Sensirion AG
+ * Copyright (c) 2019, Sensirion AG
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,70 +33,88 @@
 #include "wiring_private.h"  // pinPeripheral() function
 #include <Arduino.h>
 
+#include "sensirion_uart.h"
+
+#define BAUDRATE 115200  // baud rate of SPS30
+#define PIN_UART_2_RX 7
+#define PIN_UART_2_TX 6
+#define PIN_UART_3_RX 29
+#define PIN_UART_3_TX 28
+
+Uart Serial2(&sercom3, 7, 6, PAD_SERIAL1_RX, PAD_SERIAL1_TX);
+Uart Serial3(&sercom4, 29, 28, PAD_SERIAL1_RX, PAD_SERIAL1_TX);
+
+void SERCOM3_Handler() {
+    Serial2.IrqHandler();
+}
+
+void SERCOM4_Handler() {
+    Serial3.IrqHandler();
+}
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "sensirion_arch_config.h"
-#include "sensirion_uart.h"
-
-#define BAUDRATE 115200  // baud rate of SPS30
-#define PIN_UART_RX 11
-#define PIN_UART_TX 10
-
-/*
- * Create a new serial interface on pin 10 (TX) and 11 (RX)
- * Source:
- * https://learn.adafruit.com/using-atsamd21-sercom-to-add-more-spi-i2c-serial-ports/creating-a-new-serial
- *
- * NOTE: The procedure is different for non-SAMD based boards like the Arduino
- *       Uno where `Serial` is usually shared with the USB connection, thus an
- *       alternative port may have to be established, e.g. with SoftwareSerial,
- *       see
- * http://www.fiz-ix.com/2012/12/arduino-uno-with-multiple-software-serial-devices/
- */
-Uart Serial2(&sercom1, PIN_UART_RX, PIN_UART_TX, SERCOM_RX_PAD_0,
-             UART_TX_PAD_2);
-
-void SERCOM1_Handler() {
-    Serial2.IrqHandler();
-}
+static Uart *const ports[] = {&Serial2, &Serial3};
+static uint8_t cur_port = 0;
 
 /**
  * sensirion_uart_select_port() - select the UART port index to use
  *                                THE IMPLEMENTATION IS OPTIONAL ON SINGLE-PORT
  *                                SETUPS (only one SPS30)
  *
- * Return:      0 on success, an error code otherwise
+ * Return:      0 on success, -1 if the selected port is invalid
  */
 int16_t sensirion_uart_select_port(uint8_t port) {
+    if (port >= (sizeof(ports) / sizeof(ports[0])))
+        return -1;
+    cur_port = port;
     return 0;
 }
 
 /**
  * sensirion_uart_open() - initialize UART
  *
- * Return:      0 on success, an error code otherwise
+ * Return:      0 on success, -1 if the selected port is invalid
  */
 int16_t sensirion_uart_open() {
-    Serial2.begin(BAUDRATE);
-    pinPeripheral(PIN_UART_TX, PIO_SERCOM);
-    pinPeripheral(PIN_UART_RX, PIO_SERCOM);
+    switch (cur_port) {
+        case 0:
+            Serial2.begin(BAUDRATE);
+            pinPeripheral(PIN_UART_2_RX, PIO_SERCOM_ALT);
+            pinPeripheral(PIN_UART_2_TX, PIO_SERCOM_ALT);
+            return 0;
 
-    while (!Serial) {
-        delay(100);
+        case 1:
+            Serial3.begin(BAUDRATE);
+            pinPeripheral(PIN_UART_3_RX, PIO_SERCOM_ALT);
+            pinPeripheral(PIN_UART_3_TX, PIO_SERCOM_ALT);
+            return 0;
+
+        default:
+            return -1;
     }
-    return 0;
 }
 
 /**
  * sensirion_uart_close() - release UART resources
  *
- * Return:      0 on success, an error code otherwise
+ * Return:      0 on success, -1 if the selected port is invalid
  */
 int16_t sensirion_uart_close() {
-    Serial2.end();
-    return 0;
+    switch (cur_port) {
+        case 0:
+            Serial2.end();
+            return 0;
+
+        case 1:
+            Serial3.end();
+            return 0;
+
+        default:
+            return -1;
+    }
 }
 
 /**
@@ -107,7 +125,7 @@ int16_t sensirion_uart_close() {
  * Return:      Number of bytes sent or a negative error code
  */
 int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
-    return Serial2.write(data, data_len);
+    return ports[cur_port]->write(data, data_len);
 }
 
 /**
@@ -118,14 +136,7 @@ int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
  * Return:      Number of bytes received or a negative error code
  */
 int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
-    int16_t i = 0;
-
-    while (Serial2.available() > 0 && i < max_data_len) {
-        data[i] = (uint8_t)Serial2.read();
-        i++;
-    }
-
-    return i;
+    return ports[cur_port]->readBytes(data, max_data_len);
 }
 
 /**
