@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+ * `[changed]` switch from `s8`, ..., `u64` style types to `int8_t`, ...,
+               `uint64_t` (#35)
+
 ## [1.1.1] - 2019-04-11
 
  * `[fixed]` Rebuild when `sps30_example_usage.c` changed (#30)
