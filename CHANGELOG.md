@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* `[added]` `.clang-format` Style-file for clang-format and helper targets
+            `make style-fix` and `make style-check`
+
 ## [1.1.1] - 2019-04-11
 
  * `[fixed]` Rebuild when `sps30_example_usage.c` changed (#30)
