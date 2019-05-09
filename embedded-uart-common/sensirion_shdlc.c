@@ -18,19 +18,20 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "sensirion_shdlc.h"
 #include "sensirion_arch_config.h"
 #include "sensirion_uart.h"
-#include "sensirion_shdlc.h"
 
 #define SHDLC_START 0x7e
 #define SHDLC_STOP 0x7e
@@ -54,8 +55,7 @@ static u8 sensirion_shdlc_crc(u8 header_sum, u8 data_len, const u8 *data) {
 }
 
 static u16 sensirion_shdlc_stuff_data(u8 data_len, const u8 *data,
-                                      u8 *stuffed_data)
-{
+                                      u8 *stuffed_data) {
     u16 output_data_len = 0;
     u8 c;
 
@@ -85,11 +85,16 @@ static u8 sensirion_shdlc_check_unstuff(u8 data) {
 
 static u8 sensirion_shdlc_unstuff_byte(u8 data) {
     switch (data) {
-        case 0x31: return 0x11;
-        case 0x33: return 0x13;
-        case 0x5d: return 0x7d;
-        case 0x5e: return 0x7e;
-        default: return data;
+        case 0x31:
+            return 0x11;
+        case 0x33:
+            return 0x13;
+        case 0x5d:
+            return 0x7d;
+        case 0x5e:
+            return 0x7e;
+        default:
+            return data;
     }
 }
 
@@ -145,9 +150,7 @@ s16 sensirion_shdlc_rx(u8 max_data_len, struct sensirion_shdlc_rx_header *rxh,
     if (len < 1 || rx_frame[0] != SHDLC_START)
         return SENSIRION_SHDLC_ERR_MISSING_START;
 
-    for (unstuff_next = 0, i = 1, j = 0;
-         j < sizeof(*rxh) && i < len - 2;
-         ++i) {
+    for (unstuff_next = 0, i = 1, j = 0; j < sizeof(*rxh) && i < len - 2; ++i) {
         if (unstuff_next) {
             rx_header[j++] = sensirion_shdlc_unstuff_byte(rx_frame[i]);
             unstuff_next = 0;
@@ -160,9 +163,7 @@ s16 sensirion_shdlc_rx(u8 max_data_len, struct sensirion_shdlc_rx_header *rxh,
     if (j != sizeof(*rxh) || unstuff_next)
         return SENSIRION_SHDLC_ERR_ENCODING_ERROR;
 
-    for (unstuff_next = 0, j = 0;
-         j < rxh->data_len && i < len - 2;
-         ++i) {
+    for (unstuff_next = 0, j = 0; j < rxh->data_len && i < len - 2; ++i) {
         if (unstuff_next) {
             data[j++] = sensirion_shdlc_unstuff_byte(rx_frame[i]);
             unstuff_next = 0;
