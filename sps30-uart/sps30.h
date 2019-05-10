@@ -45,16 +45,16 @@ extern "C" {
 #define SPS_GET_ERR_STATE(err_code) ((err_code)&0xff)
 
 struct sps30_measurement {
-    f32 mc_1p0;
-    f32 mc_2p5;
-    f32 mc_4p0;
-    f32 mc_10p0;
-    f32 nc_0p5;
-    f32 nc_1p0;
-    f32 nc_2p5;
-    f32 nc_4p0;
-    f32 nc_10p0;
-    f32 typical_particle_size;
+    float32_t mc_1p0;
+    float32_t mc_2p5;
+    float32_t mc_4p0;
+    float32_t mc_10p0;
+    float32_t nc_0p5;
+    float32_t nc_1p0;
+    float32_t nc_2p5;
+    float32_t nc_4p0;
+    float32_t nc_10p0;
+    float32_t typical_particle_size;
 };
 
 /**
@@ -68,7 +68,7 @@ const char *sps_get_driver_version(void);
  *
  * Return:  0 on success, an error code otherwise
  */
-s16 sps30_probe();
+int16_t sps30_probe();
 
 /**
  * sps30_get_serial() - retrieve the serial number
@@ -79,7 +79,7 @@ s16 sps30_probe();
  *          terminated). Must be at least SPS_MAX_SERIAL_LEN long.
  * Return:  0 on success, an error code otherwise
  */
-s16 sps30_get_serial(char *serial);
+int16_t sps30_get_serial(char *serial);
 
 /**
  * sps30_start_measurement() - start measuring
@@ -89,14 +89,14 @@ s16 sps30_get_serial(char *serial);
  *
  * Return:  0 on success, an error code otherwise
  */
-s16 sps30_start_measurement();
+int16_t sps30_start_measurement();
 
 /**
  * sps30_stop_measurement() - stop measuring
  *
  * Return:  0 on success, an error code otherwise
  */
-s16 sps30_stop_measurement();
+int16_t sps30_stop_measurement();
 
 /**
  * sps30_read_measurement() - read a measurement
@@ -105,7 +105,7 @@ s16 sps30_stop_measurement();
  *
  * Return:  0 on success, an error code otherwise
  */
-s16 sps30_read_measurement(struct sps30_measurement *measurement);
+int16_t sps30_read_measurement(struct sps30_measurement *measurement);
 
 /**
  * sps30_read_fan_speed() - read the current fan speed
@@ -115,7 +115,7 @@ s16 sps30_read_measurement(struct sps30_measurement *measurement);
  * @fan_rpm:    Memory where the fan speed in rpm is stored
  * Return:      0 on success, an error code otherwise
  */
-s16 sps30_read_fan_speed(u16 *fan_rpm);
+int16_t sps30_read_fan_speed(uint16_t *fan_rpm);
 
 /**
  * sps30_get_fan_auto_cleaning_interval() - read the current auto-cleaning
@@ -127,7 +127,7 @@ s16 sps30_read_fan_speed(u16 *fan_rpm);
  * @interval_seconds:   Memory where the interval in seconds is stored
  * Return:              0 on success, an error code otherwise
  */
-s16 sps30_get_fan_auto_cleaning_interval(u32 *interval_seconds);
+int16_t sps30_get_fan_auto_cleaning_interval(uint32_t *interval_seconds);
 
 /**
  * sps30_set_fan_auto_cleaning_interval() - set the current auto-cleaning
@@ -136,7 +136,7 @@ s16 sps30_get_fan_auto_cleaning_interval(u32 *interval_seconds);
  * @interval_seconds:   Value in seconds used to sets the auto-cleaning interval
  * Return:              0 on success, an error code otherwise
  */
-s16 sps30_set_fan_auto_cleaning_interval(u32 interval_seconds);
+int16_t sps30_set_fan_auto_cleaning_interval(uint32_t interval_seconds);
 
 /**
  * sps30_get_fan_auto_cleaning_interval_days() - convenience function to read
@@ -152,7 +152,7 @@ s16 sps30_set_fan_auto_cleaning_interval(u32 interval_seconds);
  * @interval_days:  Memory where the interval in days is stored
  * Return:          0 on success, an error code otherwise
  */
-s16 sps30_get_fan_auto_cleaning_interval_days(u8 *interval_days);
+int16_t sps30_get_fan_auto_cleaning_interval_days(uint8_t *interval_days);
 
 /**
  * sps30_set_fan_auto_cleaning_interval_days() - convenience function to set the
@@ -161,14 +161,14 @@ s16 sps30_get_fan_auto_cleaning_interval_days(u8 *interval_days);
  * @interval_days:  Value in days used to sets the auto-cleaning interval
  * Return:          0 on success, an error code otherwise
  */
-s16 sps30_set_fan_auto_cleaning_interval_days(u8 interval_days);
+int16_t sps30_set_fan_auto_cleaning_interval_days(uint8_t interval_days);
 
 /**
  * sps30_reset() - reset the SGP30
  *
  * Return:          0 on success, an error code otherwise
  */
-s16 sps30_reset();
+int16_t sps30_reset();
 
 #ifdef __cplusplus
 }

@@ -67,7 +67,7 @@ void SERCOM1_Handler() {
  *
  * Return:      0 on success, an error code otherwise
  */
-s16 sensirion_uart_open() {
+int16_t sensirion_uart_open() {
     Serial2.begin(BAUDRATE);
     pinPeripheral(PIN_UART_TX, PIO_SERCOM);
     pinPeripheral(PIN_UART_RX, PIO_SERCOM);
@@ -83,7 +83,7 @@ s16 sensirion_uart_open() {
  *
  * Return:      0 on success, an error code otherwise
  */
-s16 sensirion_uart_close() {
+int16_t sensirion_uart_close() {
     Serial2.end();
     return 0;
 }
@@ -95,7 +95,7 @@ s16 sensirion_uart_close() {
  * @data:       data to sendv v
  * Return:      Number of bytes sent or a negative error code
  */
-s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
+int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
     return Serial2.write(data, data_len);
 }
 
@@ -106,11 +106,11 @@ s16 sensirion_uart_tx(u16 data_len, const u8 *data) {
  * @data:       Memory where received data is stored
  * Return:      Number of bytes received or a negative error code
  */
-s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
-    s16 i = 0;
+int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
+    int16_t i = 0;
 
     while (Serial2.available() > 0 && i < max_data_len) {
-        data[i] = (u8)Serial2.read();
+        data[i] = (uint8_t)Serial2.read();
         i++;
     }
 
@@ -125,7 +125,7 @@ s16 sensirion_uart_rx(u16 max_data_len, u8 *data) {
  *
  * @param useconds the sleep time in microseconds
  */
-void sensirion_sleep_usec(u32 useconds) {
+void sensirion_sleep_usec(uint32_t useconds) {
     delay((useconds / 1000) + 1);
 }
 

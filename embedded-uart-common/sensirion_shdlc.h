@@ -50,18 +50,19 @@ extern "C" {
 #define be32_to_cpu(s) (s)
 #define be64_to_cpu(s) (s)
 #else
-#define be16_to_cpu(s) (((u16)(s) << 8) | (0xff & ((u16)(s)) >> 8))
+#define be16_to_cpu(s) (((uint16_t)(s) << 8) | (0xff & ((uint16_t)(s)) >> 8))
 #define be32_to_cpu(s)                                                         \
-    (((u32)be16_to_cpu(s) << 16) | (0xffff & (be16_to_cpu((s) >> 16))))
+    (((uint32_t)be16_to_cpu(s) << 16) | (0xffff & (be16_to_cpu((s) >> 16))))
 #define be64_to_cpu(s)                                                         \
-    (((u64)be32_to_cpu(s) << 32) | (0xffffffff & ((u64)be32_to_cpu((s) >> 32))))
+    (((uint64_t)be32_to_cpu(s) << 32) |                                        \
+     (0xffffffff & ((uint64_t)be32_to_cpu((s) >> 32))))
 #endif
 
 struct sensirion_shdlc_rx_header {
-    u8 addr;
-    u8 cmd;
-    u8 state;
-    u8 data_len;
+    uint8_t addr;
+    uint8_t cmd;
+    uint8_t state;
+    uint8_t data_len;
 };
 
 /**
@@ -73,7 +74,8 @@ struct sensirion_shdlc_rx_header {
  * @data:       data to send
  * Return:      0 on success, an error code otherwise
  */
-s16 sensirion_shdlc_tx(u8 addr, u8 cmd, u8 data_len, const u8 *data);
+int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len,
+                           const uint8_t *data);
 
 /**
  * sensirion_shdlc_rx() - receive an SHDLC frame
@@ -86,8 +88,9 @@ s16 sensirion_shdlc_tx(u8 addr, u8 cmd, u8 data_len, const u8 *data);
  * @data:       Memory where received data is stored
  * Return:      0 on success, an error code otherwise
  */
-s16 sensirion_shdlc_rx(u8 max_data_len,
-                       struct sensirion_shdlc_rx_header *header, u8 *data);
+int16_t sensirion_shdlc_rx(uint8_t max_data_len,
+                           struct sensirion_shdlc_rx_header *header,
+                           uint8_t *data);
 
 /**
  * sensirion_shdlc_xcv() - transceive (transmit then receive) an SHDLC frame
@@ -103,10 +106,10 @@ s16 sensirion_shdlc_rx(u8 max_data_len,
  * @rx_data:        Memory where the received data is stored
  * Return:          0 on success, an error code otherwise
  */
-s16 sensirion_shdlc_xcv(u8 addr, u8 cmd, u8 tx_data_len, const u8 *tx_data,
-                        u8 max_rx_data_len,
-                        struct sensirion_shdlc_rx_header *rx_header,
-                        u8 *rx_data);
+int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len,
+                            const uint8_t *tx_data, uint8_t max_rx_data_len,
+                            struct sensirion_shdlc_rx_header *rx_header,
+                            uint8_t *rx_data);
 
 #ifdef __cplusplus
 }
