@@ -5,8 +5,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2019-05-14
+
 * `[added]` `.clang-format` Style-file for clang-format and helper targets
             `make style-fix` and `make style-check` (#36)
+* `[changed]` Use stdint types (e.g. `uint16_t` instead of `u16`)
 
 ## [1.1.1] - 2019-04-11
 
@@ -33,7 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Initial SHDLC UART release
  * Initial SPS30 release
 
-[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/1.1.1...master
+[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/2.0.0...master
+[2.0.0]: https://github.com/Sensirion/embedded-uart-sps/compare/1.1.1...2.0.0
 [1.1.1]: https://github.com/Sensirion/embedded-uart-sps/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/Sensirion/embedded-uart-sps/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/Sensirion/embedded-uart-sps/compare/0.9.1...1.0.0
