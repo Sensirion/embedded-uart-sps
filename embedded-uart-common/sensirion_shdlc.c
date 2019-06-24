@@ -167,6 +167,9 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
     if (j != sizeof(*rxh) || unstuff_next)
         return SENSIRION_SHDLC_ERR_ENCODING_ERROR;
 
+    if (max_data_len < rxh->data_len)
+        return SENSIRION_SHDLC_ERR_MISSING_STOP;
+
     for (unstuff_next = 0, j = 0; j < rxh->data_len && i < len - 2; ++i) {
         if (unstuff_next) {
             data[j++] = sensirion_shdlc_unstuff_byte(rx_frame[i]);
@@ -180,11 +183,6 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
 
     if (unstuff_next)
         return SENSIRION_SHDLC_ERR_ENCODING_ERROR;
-
-    if (max_data_len < rxh->data_len) {
-        rxh->data_len = max_data_len;
-        return SENSIRION_SHDLC_ERR_MISSING_STOP;
-    }
 
     if (j < rxh->data_len)
         return SENSIRION_SHDLC_ERR_ENCODING_ERROR;
