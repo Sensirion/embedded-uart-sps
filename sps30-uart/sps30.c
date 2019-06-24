@@ -78,14 +78,18 @@ int16_t sps30_get_serial(char *serial) {
 }
 
 int16_t sps30_start_measurement() {
+    struct sensirion_shdlc_rx_header header;
     uint8_t param_buf[] = SPS_SUBCMD_MEASUREMENT_START;
 
-    return sensirion_shdlc_tx(SPS_ADDR, SPS_CMD_START_MEASUREMENT,
-                              sizeof(param_buf), param_buf);
+    return sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_START_MEASUREMENT,
+                               sizeof(param_buf), param_buf, 0, &header, NULL);
 }
 
 int16_t sps30_stop_measurement() {
-    return sensirion_shdlc_tx(SPS_ADDR, SPS_CMD_STOP_MEASUREMENT, 0, NULL);
+    struct sensirion_shdlc_rx_header header;
+
+    return sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_STOP_MEASUREMENT, 0, NULL, 0,
+                               &header, NULL);
 }
 
 int16_t sps30_read_measurement(struct sps30_measurement *measurement) {
