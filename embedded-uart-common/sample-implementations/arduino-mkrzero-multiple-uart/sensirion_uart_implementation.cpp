@@ -136,7 +136,12 @@ int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
  * Return:      Number of bytes received or a negative error code
  */
 int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
-    return ports[cur_port]->readBytes(data, max_data_len);
+    int16_t i;
+
+    for (i = 0; ports[cur_port]->available() > 0 && i < max_data_len; ++i)
+        data[i] = (uint8_t)(ports[cur_port]->read());
+
+    return i;
 }
 
 /**
