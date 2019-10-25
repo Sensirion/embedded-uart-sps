@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * [`added`]   Multiple sensors sample implementation for arduino MKR0
  * [`changed`] Split out `default_config.inc` from Makefile to configure paths
                and CFLAGS
+ * [`fixed`]   Fix strict-aliasing ans sign-conversion compiler warnings
 
 ## [2.0.0] - 2019-05-14
 

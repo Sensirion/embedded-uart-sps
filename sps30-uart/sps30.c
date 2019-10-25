@@ -94,11 +94,13 @@ int16_t sps30_stop_measurement() {
 
 int16_t sps30_read_measurement(struct sps30_measurement *measurement) {
     struct sensirion_shdlc_rx_header header;
-    float32_t data[10];
     int16_t ret;
     uint16_t idx;
-    uint32_t *u32_data = (uint32_t *)data;
-    uint32_t tmp;
+    union {
+        uint16_t u16_value[2];
+        uint32_t u32_value;
+        float32_t f32_value;
+    } val, data[10];
 
     ret = sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_READ_MEASUREMENT, 0, NULL,
                               sizeof(data), &header, (uint8_t *)data);
@@ -109,36 +111,35 @@ int16_t sps30_read_measurement(struct sps30_measurement *measurement) {
         return SPS_ERR_NOT_ENOUGH_DATA;
 
     idx = 0;
-    tmp = be32_to_cpu(u32_data[idx]);
-    measurement->mc_1p0 = *(float32_t *)&tmp;
+    val.u32_value = be32_to_cpu(data[idx].u32_value);
+    measurement->mc_1p0 = val.f32_value;
     ++idx;
-    tmp = be32_to_cpu(u32_data[idx]);
-    measurement->mc_2p5 = *(float32_t *)&tmp;
+    val.u32_value = be32_to_cpu(data[idx].u32_value);
+    measurement->mc_2p5 = val.f32_value;
     ++idx;
-    tmp = be32_to_cpu(u32_data[idx]);
-    measurement->mc_4p0 = *(float32_t *)&tmp;
+    val.u32_value = be32_to_cpu(data[idx].u32_value);
+    measurement->mc_4p0 = val.f32_value;
     ++idx;
-    tmp = be32_to_cpu(u32_data[idx]);
-    measurement->mc_10p0 = *(float32_t *)&tmp;
+    val.u32_value = be32_to_cpu(data[idx].u32_value);
+    measurement->mc_10p0 = val.f32_value;
     ++idx;
-    tmp = be32_to_cpu(u32_data[idx]);
-    measurement->nc_0p5 = *(float32_t *)&tmp;
+    val.u32_value = be32_to_cpu(data[idx].u32_value);
+    measurement->nc_0p5 = val.f32_value;
     ++idx;
-    tmp = be32_to_cpu(u32_data[idx]);
-    measurement->nc_1p0 = *(float32_t *)&tmp;
+    val.u32_value = be32_to_cpu(data[idx].u32_value);
+    measurement->nc_1p0 = val.f32_value;
     ++idx;
-    tmp = be32_to_cpu(u32_data[idx]);
-    measurement->nc_2p5 = *(float32_t *)&tmp;
+    val.u32_value = be32_to_cpu(data[idx].u32_value);
+    measurement->nc_2p5 = val.f32_value;
     ++idx;
-    tmp = be32_to_cpu(u32_data[idx]);
-    measurement->nc_4p0 = *(float32_t *)&tmp;
+    val.u32_value = be32_to_cpu(data[idx].u32_value);
+    measurement->nc_4p0 = val.f32_value;
     ++idx;
-    tmp = be32_to_cpu(u32_data[idx]);
-    measurement->nc_10p0 = *(float32_t *)&tmp;
+    val.u32_value = be32_to_cpu(data[idx].u32_value);
+    measurement->nc_10p0 = val.f32_value;
     ++idx;
-    tmp = be32_to_cpu(u32_data[idx]);
-    measurement->typical_particle_size = *(float32_t *)&tmp;
-    ++idx;
+    val.u32_value = be32_to_cpu(data[idx].u32_value);
+    measurement->typical_particle_size = val.f32_value;
 
     if (header.state)
         return SPS_ERR_STATE(header.state);
