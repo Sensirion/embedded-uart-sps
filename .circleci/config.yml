@@ -26,3 +26,36 @@ jobs:
               (cd release/sps30-uart
                make uart_sources=sample-implementations/linux/sensirion_uart_implementation.c
                make clean)
+
+  deploy:
+    docker:
+      - image: gcc:5.5
+    steps:
+      - checkout
+      - run: apt update
+      - run: apt install -y zip
+      - run: make release
+      - run:
+          name: Move zip files to artifact directory
+          command: |
+            mkdir -p /releases/
+            mv release/*.zip /releases/
+      - store-artifacts:
+          path: /releases
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build:
+          filters: # required since `deploy` has tag filters AND requires `build`
+            tags:
+              only: /.*/
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /^\d+\.\d+\.\d+$/
