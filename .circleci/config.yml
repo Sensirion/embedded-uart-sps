@@ -10,9 +10,19 @@ jobs:
       - checkout
       - run: apt update
       - run: apt install -y zip
-      - run: make release
+      - run: make prepare
       - run: make
+      - run: make clean
+      - run: make release
       - run:
-          name: make driver
+          name: build stub release drivers
           command: |
-              cd release/sps30-uart && make && make clean && cd -
+              (cd release/sps30-uart
+               make
+               make clean)
+      - run:
+          name: build Linux release driver
+          command: |
+              (cd release/sps30-uart
+               make uart_sources=sample-implementations/linux/sensirion_uart_implementation.c
+               make clean)
