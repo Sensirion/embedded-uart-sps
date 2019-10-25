@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "sensirion_arch_config.h"
 #include "sensirion_uart.h"
+#include "sensirion_arch_config.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <termios.h>
