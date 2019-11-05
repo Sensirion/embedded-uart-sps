@@ -164,6 +164,17 @@ int16_t sps30_get_fan_auto_cleaning_interval_days(uint8_t *interval_days);
 int16_t sps30_set_fan_auto_cleaning_interval_days(uint8_t interval_days);
 
 /**
+ * sps30_start_manual_fan_cleaning() - Immediately trigger the fan cleaning
+ *
+ * Note that this command can only be run when the sensor is in measurement
+ * mode, i.e. after sps30_start_measurement() without subsequent
+ * sps30_stop_measurement().
+ *
+ * Return:          0 on success, an error code otherwise
+ */
+int16_t sps30_start_manual_fan_cleaning();
+
+/**
  * sps30_reset() - reset the SGP30
  *
  * Return:          0 on success, an error code otherwise

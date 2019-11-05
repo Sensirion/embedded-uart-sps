@@ -214,6 +214,13 @@ int16_t sps30_set_fan_auto_cleaning_interval_days(uint8_t interval_days) {
                                                 60 * 60);
 }
 
+int16_t sps30_start_manual_fan_cleaning() {
+    struct sensirion_shdlc_rx_header header;
+
+    return sensirion_shdlc_xcv(SPS_ADDR, SPS_CMD_START_FAN_CLEANING, 0, NULL, 0,
+                               &header, NULL);
+}
+
 int16_t sps30_reset() {
     return sensirion_shdlc_tx(SPS_ADDR, SPS_CMD_RESET, 0, NULL);
 }
