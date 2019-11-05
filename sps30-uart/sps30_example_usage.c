@@ -29,8 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stdio.h>   // printf
-#include <unistd.h>  // sleep
+#include <stdio.h>  // printf
 
 #include "sensirion_uart.h"
 #include "sps30.h"
@@ -40,50 +39,36 @@
  * PLATFORM
  */
 //#define printf(...)
-//#define sleep(...)
 
 int main(void) {
     struct sps30_measurement m;
-    char serial[SPS_MAX_SERIAL_LEN];
-    uint8_t auto_clean_days = 4;
-    uint32_t auto_clean;
+    char serial[SPS30_MAX_SERIAL_LEN];
+    const uint8_t AUTO_CLEAN_DAYS = 4;
     int16_t ret;
 
     while (sensirion_uart_open() != 0) {
         printf("UART init failed\n");
-        sleep(1);
+        sensirion_sleep_usec(1000000); /* sleep for 1s */
     }
 
     /* Busy loop for initialization, because the main loop does not work without
      * a sensor.
      */
     while (sps30_probe() != 0) {
-        printf("SPS sensor probing failed\n");
-        sleep(1);
+        printf("SPS30 sensor probing failed\n");
+        sensirion_sleep_usec(1000000); /* sleep for 1s */
     }
-    printf("SPS sensor probing successful\n");
+    printf("SPS30 sensor probing successful\n");
 
     ret = sps30_get_serial(serial);
     if (ret)
         printf("error %d reading serial\n", ret);
     else
-        printf("SPS Serial: %s\n", serial);
+        printf("SPS30 Serial: %s\n", serial);
 
-    ret = sps30_get_fan_auto_cleaning_interval(&auto_clean);
-    if (ret)
-        printf("error %d retrieving the auto-clean interval\n", ret);
-    else
-        printf("auto-cleaning interval is %d seconds\n", auto_clean);
-
-    ret = sps30_set_fan_auto_cleaning_interval_days(auto_clean_days);
+    ret = sps30_set_fan_auto_cleaning_interval_days(AUTO_CLEAN_DAYS);
     if (ret)
         printf("error %d setting the auto-clean interval\n", ret);
-
-    ret = sps30_get_fan_auto_cleaning_interval_days(&auto_clean_days);
-    if (ret)
-        printf("error retrieving the auto-clean interval\n");
-    else
-        printf("auto-cleaning interval set to %u days\n", auto_clean_days);
 
     ret = sps30_start_measurement();
     if (ret < 0)
@@ -96,9 +81,9 @@ int main(void) {
             printf("error reading measurement\n");
 
         } else {
-            if (SPS_IS_ERR_STATE(ret)) {
+            if (SPS30_IS_ERR_STATE(ret)) {
                 printf("Chip state: %u - measurements may not be accurate\n",
-                       SPS_GET_ERR_STATE(ret));
+                       SPS30_GET_ERR_STATE(ret));
             }
 
             printf("measured values:\n"
@@ -116,7 +101,7 @@ int main(void) {
                    m.nc_2p5, m.nc_4p0, m.nc_10p0, m.typical_particle_size);
         }
 
-        sleep(1);
+        sensirion_sleep_usec(1000000); /* sleep for 1s */
     } while (1);
 
     if (sensirion_uart_close() != 0)

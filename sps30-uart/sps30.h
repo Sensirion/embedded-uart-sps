@@ -38,11 +38,11 @@ extern "C" {
 
 #include "sensirion_arch_config.h"
 
-#define SPS_MAX_SERIAL_LEN 32
-#define SPS_ERR_NOT_ENOUGH_DATA (-1)
-#define SPS_ERR_STATE_MASK (0x100)
-#define SPS_IS_ERR_STATE(err_code) (((err_code) | 0xff) == 0x1ff)
-#define SPS_GET_ERR_STATE(err_code) ((err_code)&0xff)
+#define SPS30_MAX_SERIAL_LEN 32
+#define SPS30_ERR_NOT_ENOUGH_DATA (-1)
+#define SPS30_ERR_STATE_MASK (0x100)
+#define SPS30_IS_ERR_STATE(err_code) (((err_code) | 0xff) == 0x1ff)
+#define SPS30_GET_ERR_STATE(err_code) ((err_code)&0xff)
 
 struct sps30_measurement {
     float32_t mc_1p0;
@@ -108,16 +108,6 @@ int16_t sps30_stop_measurement();
 int16_t sps30_read_measurement(struct sps30_measurement *measurement);
 
 /**
- * sps30_read_fan_speed() - read the current fan speed
- *
- * Note that fan_rpm must be discarded when the return code is non-zero.
- *
- * @fan_rpm:    Memory where the fan speed in rpm is stored
- * Return:      0 on success, an error code otherwise
- */
-int16_t sps30_read_fan_speed(uint16_t *fan_rpm);
-
-/**
  * sps30_get_fan_auto_cleaning_interval() - read the current auto-cleaning
  * interval
  *
@@ -162,6 +152,17 @@ int16_t sps30_get_fan_auto_cleaning_interval_days(uint8_t *interval_days);
  * Return:          0 on success, an error code otherwise
  */
 int16_t sps30_set_fan_auto_cleaning_interval_days(uint8_t interval_days);
+
+/**
+ * sps30_start_manual_fan_cleaning() - Immediately trigger the fan cleaning
+ *
+ * Note that this command can only be run when the sensor is in measurement
+ * mode, i.e. after sps30_start_measurement() without subsequent
+ * sps30_stop_measurement().
+ *
+ * Return:          0 on success, an error code otherwise
+ */
+int16_t sps30_start_manual_fan_cleaning();
 
 /**
  * sps30_reset() - reset the SGP30
