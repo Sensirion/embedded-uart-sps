@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2019-11-05
+
  * [`added`]   Multiple sensors API `sensirion_uart_select_port`
  * [`added`]   Multiple sensors sample implementation for arduino MKR0
  * [`changed`] Split out `default_config.inc` from Makefile to configure paths
@@ -45,7 +47,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Initial SHDLC UART release
  * Initial SPS30 release
 
-[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/2.0.0...master
+[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/3.0.0...master
+[3.0.0]: https://github.com/Sensirion/embedded-uart-sps/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/Sensirion/embedded-uart-sps/compare/1.1.1...2.0.0
 [1.1.1]: https://github.com/Sensirion/embedded-uart-sps/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/Sensirion/embedded-uart-sps/compare/1.0.0...1.1.0
