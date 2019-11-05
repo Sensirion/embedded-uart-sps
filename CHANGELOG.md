@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * [`fixed`]   Fix strict-aliasing ans sign-conversion compiler warnings
  * [`added`]   instantly start manual fan cleaning with
                `sps30_start_manual_fan_cleaning()`
+ * [`changed`] rename `SPS_*` constants to `SPS30_`
 
 ## [2.0.0] - 2019-05-14
 

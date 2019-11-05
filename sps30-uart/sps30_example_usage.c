@@ -44,7 +44,7 @@
 
 int main(void) {
     struct sps30_measurement m;
-    char serial[SPS_MAX_SERIAL_LEN];
+    char serial[SPS30_MAX_SERIAL_LEN];
     uint8_t auto_clean_days = 4;
     uint32_t auto_clean;
     int16_t ret;
@@ -58,16 +58,16 @@ int main(void) {
      * a sensor.
      */
     while (sps30_probe() != 0) {
-        printf("SPS sensor probing failed\n");
+        printf("SPS30 sensor probing failed\n");
         sleep(1);
     }
-    printf("SPS sensor probing successful\n");
+    printf("SPS30 sensor probing successful\n");
 
     ret = sps30_get_serial(serial);
     if (ret)
         printf("error %d reading serial\n", ret);
     else
-        printf("SPS Serial: %s\n", serial);
+        printf("SPS30 Serial: %s\n", serial);
 
     ret = sps30_get_fan_auto_cleaning_interval(&auto_clean);
     if (ret)
@@ -96,9 +96,9 @@ int main(void) {
             printf("error reading measurement\n");
 
         } else {
-            if (SPS_IS_ERR_STATE(ret)) {
+            if (SPS30_IS_ERR_STATE(ret)) {
                 printf("Chip state: %u - measurements may not be accurate\n",
-                       SPS_GET_ERR_STATE(ret));
+                       SPS30_GET_ERR_STATE(ret));
             }
 
             printf("measured values:\n"
