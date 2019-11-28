@@ -168,7 +168,7 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
         return SENSIRION_SHDLC_ERR_ENCODING_ERROR;
 
     if (max_data_len < rxh->data_len)
-        return SENSIRION_SHDLC_ERR_MISSING_STOP;
+        return SENSIRION_SHDLC_ERR_FRAME_TOO_LONG; /* more data than expected */
 
     for (unstuff_next = 0, j = 0; j < rxh->data_len && i < len - 2; ++i) {
         if (unstuff_next) {
@@ -188,11 +188,9 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
         return SENSIRION_SHDLC_ERR_ENCODING_ERROR;
 
     crc = rx_frame[i++];
-    if (sensirion_shdlc_check_unstuff(crc)) {
+    if (sensirion_shdlc_check_unstuff(crc))
         crc = sensirion_shdlc_unstuff_byte(rx_frame[i++]);
-        if (i >= len)
-            return SENSIRION_SHDLC_ERR_MISSING_STOP;
-    }
+
     if (sensirion_shdlc_crc(rxh->addr + rxh->cmd + rxh->state, rxh->data_len,
                             data) != crc)
         return SENSIRION_SHDLC_ERR_CRC_MISMATCH;
