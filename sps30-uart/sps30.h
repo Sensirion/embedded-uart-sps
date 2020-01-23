@@ -68,7 +68,7 @@ const char *sps_get_driver_version(void);
  *
  * Return:  0 on success, an error code otherwise
  */
-int16_t sps30_probe();
+int16_t sps30_probe(void);
 
 /**
  * sps30_get_serial() - retrieve the serial number
@@ -89,14 +89,14 @@ int16_t sps30_get_serial(char *serial);
  *
  * Return:  0 on success, an error code otherwise
  */
-int16_t sps30_start_measurement();
+int16_t sps30_start_measurement(void);
 
 /**
  * sps30_stop_measurement() - stop measuring
  *
  * Return:  0 on success, an error code otherwise
  */
-int16_t sps30_stop_measurement();
+int16_t sps30_stop_measurement(void);
 
 /**
  * sps30_read_measurement() - read a measurement
@@ -162,14 +162,14 @@ int16_t sps30_set_fan_auto_cleaning_interval_days(uint8_t interval_days);
  *
  * Return:          0 on success, an error code otherwise
  */
-int16_t sps30_start_manual_fan_cleaning();
+int16_t sps30_start_manual_fan_cleaning(void);
 
 /**
  * sps30_reset() - reset the SGP30
  *
  * Return:          0 on success, an error code otherwise
  */
-int16_t sps30_reset();
+int16_t sps30_reset(void);
 
 #ifdef __cplusplus
 }

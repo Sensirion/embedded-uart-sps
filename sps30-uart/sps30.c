@@ -50,11 +50,11 @@
 #define SPS30_CMD_RESET 0xd3
 #define SPS30_ERR_STATE(state) (SPS30_ERR_STATE_MASK | (state))
 
-const char *sps_get_driver_version() {
+const char *sps_get_driver_version(void) {
     return SPS_DRV_VERSION_STR;
 }
 
-int16_t sps30_probe() {
+int16_t sps30_probe(void) {
     char serial[SPS30_MAX_SERIAL_LEN];
     int16_t ret = sps30_get_serial(serial);
 
@@ -78,7 +78,7 @@ int16_t sps30_get_serial(char *serial) {
     return 0;
 }
 
-int16_t sps30_start_measurement() {
+int16_t sps30_start_measurement(void) {
     struct sensirion_shdlc_rx_header header;
     uint8_t param_buf[] = SPS30_SUBCMD_MEASUREMENT_START;
 
@@ -86,7 +86,7 @@ int16_t sps30_start_measurement() {
                                sizeof(param_buf), param_buf, 0, &header, NULL);
 }
 
-int16_t sps30_stop_measurement() {
+int16_t sps30_stop_measurement(void) {
     struct sensirion_shdlc_rx_header header;
 
     return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_STOP_MEASUREMENT, 0, NULL,
@@ -199,13 +199,13 @@ int16_t sps30_set_fan_auto_cleaning_interval_days(uint8_t interval_days) {
                                                 60 * 60);
 }
 
-int16_t sps30_start_manual_fan_cleaning() {
+int16_t sps30_start_manual_fan_cleaning(void) {
     struct sensirion_shdlc_rx_header header;
 
     return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_START_FAN_CLEANING, 0,
                                NULL, 0, &header, NULL);
 }
 
-int16_t sps30_reset() {
+int16_t sps30_reset(void) {
     return sensirion_shdlc_tx(SPS30_ADDR, SPS30_CMD_RESET, 0, NULL);
 }
