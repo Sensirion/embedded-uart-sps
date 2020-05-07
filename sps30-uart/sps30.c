@@ -99,7 +99,7 @@ int16_t sps30_read_measurement(struct sps30_measurement *measurement) {
     union {
         uint16_t u16_value[2];
         uint32_t u32_value;
-        float32_t f32_value;
+        float f32_value;
     } val, data[10];
 
     ret = sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_READ_MEASUREMENT, 0, NULL,
