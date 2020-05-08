@@ -56,9 +56,6 @@ extern "C" {
  * typedef char int8_t;
  * typedef unsigned char uint8_t; */
 
-/* Types not typically provided by <stdint.h> */
-typedef float float32_t;
-
 /**
  * Define the endianness of your architecture:
  * 0: little endian, 1: big endian
