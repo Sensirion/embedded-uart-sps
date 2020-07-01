@@ -57,6 +57,14 @@ struct sps30_measurement {
     float typical_particle_size;
 };
 
+struct sps30_version_information {
+    uint8_t firmware_major;
+    uint8_t firmware_minor;
+    uint8_t hardware_revision;
+    uint8_t shdlc_major;
+    uint8_t shdlc_minor;
+};
+
 /**
  * sps_get_driver_version() - Return the driver version
  * Return:  Driver version string
@@ -163,6 +171,14 @@ int16_t sps30_set_fan_auto_cleaning_interval_days(uint8_t interval_days);
  * Return:          0 on success, an error code otherwise
  */
 int16_t sps30_start_manual_fan_cleaning(void);
+
+/**
+ * sps30_read_version() - Read version information.
+ *
+ * Return:          0 on success, an error code otherwise
+ */
+int16_t
+sps30_read_version(struct sps30_version_information *version_information);
 
 /**
  * sps30_reset() - reset the SGP30

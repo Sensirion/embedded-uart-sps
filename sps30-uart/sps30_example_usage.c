@@ -60,6 +60,19 @@ int main(void) {
     }
     printf("SPS30 sensor probing successful\n");
 
+    struct sps30_version_information version_information;
+    ret = sps30_read_version(&version_information);
+    if (ret) {
+        printf("error %d reading version information\n", ret);
+    } else {
+        printf("FW: %u.%u HW: %u, SHDLC: %u.%u\n",
+               version_information.firmware_major,
+               version_information.firmware_minor,
+               version_information.hardware_revision,
+               version_information.shdlc_major,
+               version_information.shdlc_minor);
+    }
+
     ret = sps30_get_serial(serial);
     if (ret)
         printf("error %d reading serial\n", ret);

@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+ * [`added`]   Get version information with `sps30_read_version` 
+
 ## [3.0.1] - 2020-07-01
 
  * [`changed`] Distinguishable return value when an SHDLC frame is longer than

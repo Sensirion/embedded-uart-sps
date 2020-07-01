@@ -46,6 +46,7 @@
 #define SPS30_CMD_DEV_INFO 0xd0
 #define SPS30_CMD_DEV_INFO_SUBCMD_GET_SERIAL                                   \
     { 0x03 }
+#define SPS30_CMD_READ_VERSION 0xd1
 #define SPS30_CMD_RESET 0xd3
 #define SPS30_ERR_STATE(state) (SPS30_ERR_STATE_MASK | (state))
 
@@ -203,6 +204,35 @@ int16_t sps30_start_manual_fan_cleaning(void) {
 
     return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_START_FAN_CLEANING, 0,
                                NULL, 0, &header, NULL);
+}
+
+int16_t
+sps30_read_version(struct sps30_version_information *version_information) {
+    struct sensirion_shdlc_rx_header header;
+    int16_t error;
+    uint8_t data[7];
+
+    error = sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_READ_VERSION, 0, NULL,
+                                sizeof(data), &header, data);
+    if (error) {
+        return error;
+    }
+
+    if (header.data_len != sizeof(data)) {
+        return SPS30_ERR_NOT_ENOUGH_DATA;
+    }
+
+    if (header.state) {
+        return SPS30_ERR_STATE(header.state);
+    }
+
+    version_information->firmware_major = data[0];
+    version_information->firmware_minor = data[1];
+    version_information->hardware_revision = data[3];
+    version_information->shdlc_major = data[5];
+    version_information->shdlc_minor = data[6];
+
+    return error;
 }
 
 int16_t sps30_reset(void) {
