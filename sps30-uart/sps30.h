@@ -116,6 +116,23 @@ int16_t sps30_stop_measurement(void);
 int16_t sps30_read_measurement(struct sps30_measurement *measurement);
 
 /**
+ * sps30_sleep() - Enter sleep mode with minimum power consumption.
+ *
+ * Note that this command can only be run when the sensor is in idle
+ * mode, i.e. after sps30_stop_measurement().
+ *
+ * Return:          0 on success, an error code otherwise
+ */
+int16_t sps30_sleep(void);
+
+/**
+ * sps30_wake_up() - Wake up from sleep mode and enter idle state.
+ *
+ * Return:          0 on success, an error code otherwise
+ */
+int16_t sps30_wake_up(void);
+
+/**
  * sps30_get_fan_auto_cleaning_interval() - read the current auto-cleaning
  * interval
  *

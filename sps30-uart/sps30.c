@@ -31,6 +31,7 @@
 
 #include "sps30.h"
 #include "sensirion_shdlc.h"
+#include "sensirion_uart.h"
 #include "sps_git_version.h"
 
 #define SPS30_ADDR 0x00
@@ -148,6 +149,26 @@ int16_t sps30_read_measurement(struct sps30_measurement *measurement) {
         return SPS30_ERR_STATE(header.state);
 
     return 0;
+}
+
+int16_t sps30_sleep(void) {
+    struct sensirion_shdlc_rx_header header;
+
+    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_SLEEP, 0, NULL, 0, &header,
+                               NULL);
+}
+
+int16_t sps30_wake_up(void) {
+    struct sensirion_shdlc_rx_header header;
+    int16_t ret;
+    const uint8_t data = 0xFF;
+
+    ret = sensirion_uart_tx(1, &data);
+    if (ret < 0) {
+        return ret;
+    }
+    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_WAKE_UP, 0, NULL, 0,
+                               &header, NULL);
 }
 
 int16_t sps30_get_fan_auto_cleaning_interval(uint32_t *interval_seconds) {
