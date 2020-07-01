@@ -59,6 +59,8 @@ const char *sps_get_driver_version(void) {
 
 int16_t sps30_probe(void) {
     char serial[SPS30_MAX_SERIAL_LEN];
+    // Try to wake up, but ignore failure if it is not in sleep mode
+    (void)sps30_wake_up();
     int16_t ret = sps30_get_serial(serial);
 
     return ret;
