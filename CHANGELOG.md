@@ -4,8 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [3.0.1] - 2020-07-01
+
  * [`changed`] Distinguishable return value when an SHDLC frame is longer than
                expected
+ * [`fixed`]   Fix function declarations to fix compilation on some platforms
+ * [`changed`] Don't use `float32_t` typedef but `float` directly
 
 ## [3.0.0] - 2019-11-05
 
