@@ -120,21 +120,30 @@ int main(void) {
             }
             sensirion_sleep_usec(1000000); /* sleep for 1s */
         }
-        /* Stop measurement and go to sleep for 1min */
+
+        /* Stop measurement for 1min to preserve power. Also enter sleep mode
+         * if the firmware version is >=2.0.
+         */
         ret = sps30_stop_measurement();
         if (ret) {
             printf("Stopping measurement failed\n");
         }
-        ret = sps30_sleep();
-        if (ret) {
-            printf("Entering sleep failed\n");
-        } else {
-            printf("Entered sleep mode\n");
+
+        if (version_information.firmware_major >= 2) {
+            ret = sps30_sleep();
+            if (ret) {
+                printf("Entering sleep failed\n");
+            }
         }
+
+        printf("No measurements for 1 minute\n");
         sensirion_sleep_usec(1000000 * 60);
-        ret = sps30_wake_up();
-        if (ret) {
-            printf("Error %i waking up sensor\n", ret);
+
+        if (version_information.firmware_major >= 2) {
+            ret = sps30_wake_up();
+            if (ret) {
+                printf("Error %i waking up sensor\n", ret);
+            }
         }
     }
 
