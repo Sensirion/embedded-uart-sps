@@ -118,8 +118,8 @@ int16_t sps30_read_measurement(struct sps30_measurement *measurement);
 /**
  * sps30_sleep() - Enter sleep mode with minimum power consumption.
  *
- * Note that this command can only be run when the sensor is in idle
- * mode, i.e. after sps30_stop_measurement().
+ * Note: This command is only available since firmware version 2.0 and can only
+ * be run when the sensor is in idle mode, i.e. after sps30_stop_measurement().
  *
  * Return:          0 on success, an error code otherwise
  */
@@ -127,6 +127,9 @@ int16_t sps30_sleep(void);
 
 /**
  * sps30_wake_up() - Wake up from sleep mode and enter idle state.
+ *
+ * Note: This command is only available since firmware version 2.0 and can only
+ * be run when the sensor is in sleep mode, i.e. after sps30_sleep().
  *
  * Return:          0 on success, an error code otherwise
  */
