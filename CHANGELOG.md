@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0] - 2020-07-03
+
  * [`added`]   Get version information with `sps30_read_version` 
  * [`added`]   Add sleep / wake-up support (FW version >= 2.0)
 
@@ -57,7 +59,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Initial SHDLC UART release
  * Initial SPS30 release
 
-[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/3.0.0...master
+[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/3.1.0...master
+[3.1.0]: https://github.com/Sensirion/embedded-uart-sps/compare/3.0.1...3.1.0
+[3.0.1]: https://github.com/Sensirion/embedded-uart-sps/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/Sensirion/embedded-uart-sps/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/Sensirion/embedded-uart-sps/compare/1.1.1...2.0.0
 [1.1.1]: https://github.com/Sensirion/embedded-uart-sps/compare/1.1.0...1.1.1
