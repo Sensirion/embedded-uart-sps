@@ -83,39 +83,69 @@ int main(void) {
     if (ret)
         printf("error %d setting the auto-clean interval\n", ret);
 
-    ret = sps30_start_measurement();
-    if (ret < 0)
-        printf("error starting measurement\n");
-    printf("measurements started\n");
-
-    do {
-        ret = sps30_read_measurement(&m);
+    while (1) {
+        ret = sps30_start_measurement();
         if (ret < 0) {
-            printf("error reading measurement\n");
-
-        } else {
-            if (SPS30_IS_ERR_STATE(ret)) {
-                printf("Chip state: %u - measurements may not be accurate\n",
-                       SPS30_GET_ERR_STATE(ret));
-            }
-
-            printf("measured values:\n"
-                   "\t%0.2f pm1.0\n"
-                   "\t%0.2f pm2.5\n"
-                   "\t%0.2f pm4.0\n"
-                   "\t%0.2f pm10.0\n"
-                   "\t%0.2f nc0.5\n"
-                   "\t%0.2f nc1.0\n"
-                   "\t%0.2f nc2.5\n"
-                   "\t%0.2f nc4.5\n"
-                   "\t%0.2f nc10.0\n"
-                   "\t%0.2f typical particle size\n\n",
-                   m.mc_1p0, m.mc_2p5, m.mc_4p0, m.mc_10p0, m.nc_0p5, m.nc_1p0,
-                   m.nc_2p5, m.nc_4p0, m.nc_10p0, m.typical_particle_size);
+            printf("error starting measurement\n");
         }
 
-        sensirion_sleep_usec(1000000); /* sleep for 1s */
-    } while (1);
+        printf("measurements started\n");
+
+        for (int i = 0; i < 60; ++i) {
+
+            ret = sps30_read_measurement(&m);
+            if (ret < 0) {
+                printf("error reading measurement\n");
+            } else {
+                if (SPS30_IS_ERR_STATE(ret)) {
+                    printf(
+                        "Chip state: %u - measurements may not be accurate\n",
+                        SPS30_GET_ERR_STATE(ret));
+                }
+
+                printf("measured values:\n"
+                       "\t%0.2f pm1.0\n"
+                       "\t%0.2f pm2.5\n"
+                       "\t%0.2f pm4.0\n"
+                       "\t%0.2f pm10.0\n"
+                       "\t%0.2f nc0.5\n"
+                       "\t%0.2f nc1.0\n"
+                       "\t%0.2f nc2.5\n"
+                       "\t%0.2f nc4.5\n"
+                       "\t%0.2f nc10.0\n"
+                       "\t%0.2f typical particle size\n\n",
+                       m.mc_1p0, m.mc_2p5, m.mc_4p0, m.mc_10p0, m.nc_0p5,
+                       m.nc_1p0, m.nc_2p5, m.nc_4p0, m.nc_10p0,
+                       m.typical_particle_size);
+            }
+            sensirion_sleep_usec(1000000); /* sleep for 1s */
+        }
+
+        /* Stop measurement for 1min to preserve power. Also enter sleep mode
+         * if the firmware version is >=2.0.
+         */
+        ret = sps30_stop_measurement();
+        if (ret) {
+            printf("Stopping measurement failed\n");
+        }
+
+        if (version_information.firmware_major >= 2) {
+            ret = sps30_sleep();
+            if (ret) {
+                printf("Entering sleep failed\n");
+            }
+        }
+
+        printf("No measurements for 1 minute\n");
+        sensirion_sleep_usec(1000000 * 60);
+
+        if (version_information.firmware_major >= 2) {
+            ret = sps30_wake_up();
+            if (ret) {
+                printf("Error %i waking up sensor\n", ret);
+            }
+        }
+    }
 
     if (sensirion_uart_close() != 0)
         printf("failed to close UART\n");

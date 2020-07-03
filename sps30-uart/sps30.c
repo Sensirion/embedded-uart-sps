@@ -31,6 +31,7 @@
 
 #include "sps30.h"
 #include "sensirion_shdlc.h"
+#include "sensirion_uart.h"
 #include "sps_git_version.h"
 
 #define SPS30_ADDR 0x00
@@ -39,6 +40,8 @@
 #define SPS30_SUBCMD_MEASUREMENT_START                                         \
     { 0x01, 0x03 }
 #define SPS30_CMD_READ_MEASUREMENT 0x03
+#define SPS30_CMD_SLEEP 0x10
+#define SPS30_CMD_WAKE_UP 0x11
 #define SPS30_CMD_FAN_CLEAN_INTV 0x80
 #define SPS30_CMD_FAN_CLEAN_INTV_LEN 5
 #define SPS30_SUBCMD_READ_FAN_CLEAN_INTV 0x00
@@ -56,6 +59,8 @@ const char *sps_get_driver_version(void) {
 
 int16_t sps30_probe(void) {
     char serial[SPS30_MAX_SERIAL_LEN];
+    // Try to wake up, but ignore failure if it is not in sleep mode
+    (void)sps30_wake_up();
     int16_t ret = sps30_get_serial(serial);
 
     return ret;
@@ -146,6 +151,26 @@ int16_t sps30_read_measurement(struct sps30_measurement *measurement) {
         return SPS30_ERR_STATE(header.state);
 
     return 0;
+}
+
+int16_t sps30_sleep(void) {
+    struct sensirion_shdlc_rx_header header;
+
+    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_SLEEP, 0, NULL, 0, &header,
+                               NULL);
+}
+
+int16_t sps30_wake_up(void) {
+    struct sensirion_shdlc_rx_header header;
+    int16_t ret;
+    const uint8_t data = 0xFF;
+
+    ret = sensirion_uart_tx(1, &data);
+    if (ret < 0) {
+        return ret;
+    }
+    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_WAKE_UP, 0, NULL, 0,
+                               &header, NULL);
 }
 
 int16_t sps30_get_fan_auto_cleaning_interval(uint32_t *interval_seconds) {
