@@ -72,37 +72,55 @@ When you run the example you should see the following output:
 
 ```
 $ ./sps30_example_usage
-SPS sensor probing successful
-SPS Serial: 0674F9B50F9B32F0
-auto-cleaning interval is 345600 seconds
-auto-cleaning interval set to 4 days
+SPS30 sensor probing successful
+FW: 2.2 HW: 7, SHDLC: 2.0
+SPS30 Serial: ECBBEEC8D8D650F3
+measurements started
+measured values:
+	1.27 pm1.0
+	1.34 pm2.5
+	1.33 pm4.0
+	1.23 pm10.0
+	8.66 nc0.5
+	10.11 nc1.0
+	10.15 nc2.5
+	10.15 nc4.5
+	10.15 nc10.0
+	0.47 typical particle size
+```
+
+After a minute measurements will be stopped and the sensor will be put to sleep
+(if the firmware version is newer then 2.0):
+```
+measured values:
+	1.25 pm1.0
+	1.32 pm2.5
+	1.30 pm4.0
+	1.21 pm10.0
+	8.50 nc0.5
+	9.92 nc1.0
+	9.96 nc2.5
+	9.96 nc4.5
+	9.96 nc10.0
+	0.48 typical particle size
+
+No measurements for 1 minute
+```
+
+After a minute of sleep measurements will be started again:
+```
 measurements started
 error reading measurement
 measured values:
-	0.00 pm1.0
-	0.00 pm2.5
-	0.00 pm4.0
-	0.00 pm10.0
-	-0.00 nc0.5
-	0.00 nc1.0
-	0.00 nc2.5
-	0.00 nc4.5
-	0.00 nc10.0
-	1.63 typical particle size
-```
-
-After a few measurements meaningful values should show up:
-```
-measured values:
-	1.35 pm1.0
-	4.25 pm2.5
-	6.40 pm4.0
-	6.62 pm10.0
-	0.93 nc0.5
-	6.72 nc1.0
-	9.85 nc2.5
-	10.23 nc4.5
-	10.29 nc10.0
+	2.23 pm1.0
+	7.80 pm2.5
+	12.24 pm4.0
+	13.36 pm10.0
+	3.90 nc0.5
+	12.34 nc1.0
+	17.45 nc2.5
+	18.54 nc4.5
+	18.81 nc10.0
 	1.63 typical particle size
 ```
 
