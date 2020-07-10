@@ -59,19 +59,19 @@ to match the device you got from the step before.
 
 ## Compile and Run
 
-Now we are ready to compile and run the sample:
+Now we are ready to compile the example:
 ```bash
 # on the Raspberry Pi
 $ cd sps30-uart-3.0.0
 $ make
 rm -f sps30_example_usage
 cc -Os -Wall -fstrict-aliasing -Wstrict-aliasing=1 -Wsign-conversion -fPIC -I. -I. -I.  -o sps30_example_usage ./sensirion_arch_config.h ./sensirion_uart.h ./sensirion_shdlc.h ./sensirion_shdlc.c ./sps_git_version.h ./sps_git_version.c ./sps30.h ./sps30.c ./sensirion_uart_implementation.c ./sps30_example_usage.c
+```
+
+When you run the example you should see the following output:
+
+```
 $ ./sps30_example_usage
-```
-
-You should see the following output:
-
-```
 SPS sensor probing successful
 SPS Serial: 0674F9B50F9B32F0
 auto-cleaning interval is 345600 seconds
