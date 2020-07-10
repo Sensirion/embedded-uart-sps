@@ -18,12 +18,12 @@ The shell code examples below use the following convention:
 
 Get the latest release from
 https://github.com/Sensirion/embedded-uart-sps/releases/latest
-(sps30-uart-3.0.0.zip for example)
+(sps30-uart-3.1.0.zip for example)
 
 ```bash
 # on the Raspberry Pi
-$ wget https://github.com/Sensirion/embedded-uart-sps/releases/download/3.0.0/sps30-uart-3.0.0.zip
-$ unzip sps30-uart-3.0.0.zip
+$ wget https://github.com/Sensirion/embedded-uart-sps/releases/download/3.1.0/sps30-uart-3.1.0.zip
+$ unzip sps30-uart-3.1.0.zip
 ```
 
 ## Get Port of the Connected Sensor
@@ -47,7 +47,7 @@ the base folder:
 
 ```bash
 # on the Raspberry Pi
-$ cd sps30-uart-3.0.0
+$ cd sps30-uart-3.1.0
 $ cp sample-implementations/linux/sensirion_uart_implementation.c sensirion_uart_implementation.c
 ```
 
@@ -62,7 +62,7 @@ to match the device you got from the step before.
 Now we are ready to compile the example:
 ```bash
 # on the Raspberry Pi
-$ cd sps30-uart-3.0.0
+$ cd sps30-uart-3.1.0
 $ make
 rm -f sps30_example_usage
 cc -Os -Wall -fstrict-aliasing -Wstrict-aliasing=1 -Wsign-conversion -fPIC -I. -I. -I.  -o sps30_example_usage ./sensirion_arch_config.h ./sensirion_uart.h ./sensirion_shdlc.h ./sensirion_shdlc.c ./sps_git_version.h ./sps_git_version.c ./sps30.h ./sps30.c ./sensirion_uart_implementation.c ./sps30_example_usage.c
