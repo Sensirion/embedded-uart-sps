@@ -50,14 +50,14 @@ void loop() {
     int16_t ret;
 
     while (sps30_probe() != 0) {
-        Serial.write("probe failed\n");
+        Serial.println("probe failed");
         delay(1000);
     }
 
     /* start measurement and wait for 10s to ensure the sensor has a
      * stable flow and possible remaining particles are cleaned out */
     if (sps30_start_measurement() != 0) {
-        Serial.write("error starting measurement\n");
+        Serial.println("error starting measurement");
     }
     delay(10000);
 
@@ -66,12 +66,14 @@ void loop() {
         ret = sps30_read_measurement(&measurement);
 
         if (ret < 0) {
-          Serial.write("read measurement failed\n");
+          Serial.println("read measurement failed");
         } else {
             if (SPS30_IS_ERR_STATE(ret)) {
-              Serial.write("Measurements may not be accurate\n");
+              Serial.print("Chip state: ");
+              Serial.print(SPS30_GET_ERR_STATE(ret), DEC);
+              Serial.println(" - measurements may not be accurate");
             }
-            Serial.write("PM 2.5: ");
+            Serial.print("PM 2.5: ");
             Serial.println(measurement.mc_2p5, DEC);
         }
     }
