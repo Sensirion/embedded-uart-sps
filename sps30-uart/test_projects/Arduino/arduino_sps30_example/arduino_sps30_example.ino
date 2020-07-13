@@ -1,33 +1,33 @@
-
 /*
-   Copyright (c) 2018, Sensirion AG
-   All rights reserved.
-
-   Redistribution and use in source and binary forms, with or without
-   modification, are permitted provided that the following conditions are met:
-
+ * Copyright (c) 2018, Sensirion AG
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
  * * Redistributions of source code must retain the above copyright notice, this
-     list of conditions and the following disclaimer.
-
+ *   list of conditions and the following disclaimer.
+ *
  * * Redistributions in binary form must reproduce the above copyright notice,
-     this list of conditions and the following disclaimer in the documentation
-     and/or other materials provided with the distribution.
-
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
  * * Neither the name of Sensirion AG nor the names of its
-     contributors may be used to endorse or promote products derived from
-     this software without specific prior written permission.
-
-   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ *   contributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 #include <Arduino.h>
 
 #include "sensirion_uart.h"
@@ -50,14 +50,14 @@ void loop() {
     int16_t ret;
 
     while (sps30_probe() != 0) {
-        Serial.write("probe failed\n");
+        Serial.println("probe failed");
         delay(1000);
     }
 
     /* start measurement and wait for 10s to ensure the sensor has a
      * stable flow and possible remaining particles are cleaned out */
     if (sps30_start_measurement() != 0) {
-        Serial.write("error starting measurement\n");
+        Serial.println("error starting measurement");
     }
     delay(10000);
 
@@ -66,12 +66,14 @@ void loop() {
         ret = sps30_read_measurement(&measurement);
 
         if (ret < 0) {
-          Serial.write("read measurement failed\n");
+          Serial.println("read measurement failed");
         } else {
-            if (SPS_IS_ERR_STATE(ret)) {
-              Serial.write("Measurements may not be accurate\n");
+            if (SPS30_IS_ERR_STATE(ret)) {
+              Serial.print("Chip state: ");
+              Serial.print(SPS30_GET_ERR_STATE(ret), DEC);
+              Serial.println(" - measurements may not be accurate");
             }
-            Serial.write("PM 2.5: ");
+            Serial.print("PM 2.5: ");
             Serial.println(measurement.mc_2p5, DEC);
         }
     }
