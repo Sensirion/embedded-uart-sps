@@ -100,55 +100,33 @@ int16_t sps30_stop_measurement(void) {
 
 int16_t sps30_read_measurement(struct sps30_measurement* measurement) {
     struct sensirion_shdlc_rx_header header;
-    int16_t ret;
-    uint16_t idx;
-    union {
-        uint16_t u16_value[2];
-        uint32_t u32_value;
-        float f32_value;
-    } val, data[10];
+    int16_t error;
+    uint8_t data[10][4];
 
-    ret = sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_READ_MEASUREMENT, 0, NULL,
-                              sizeof(data), &header, (uint8_t*)data);
-    if (ret)
-        return ret;
+    error = sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_READ_MEASUREMENT, 0, NULL,
+                                sizeof(data), &header, (uint8_t*)data);
+    if (error) {
+        return error;
+    }
 
-    if (header.data_len != sizeof(data))
+    if (header.data_len != sizeof(data)) {
         return SPS30_ERR_NOT_ENOUGH_DATA;
+    }
 
-    idx = 0;
-    val.u32_value = be32_to_cpu(data[idx].u32_value);
-    measurement->mc_1p0 = val.f32_value;
-    ++idx;
-    val.u32_value = be32_to_cpu(data[idx].u32_value);
-    measurement->mc_2p5 = val.f32_value;
-    ++idx;
-    val.u32_value = be32_to_cpu(data[idx].u32_value);
-    measurement->mc_4p0 = val.f32_value;
-    ++idx;
-    val.u32_value = be32_to_cpu(data[idx].u32_value);
-    measurement->mc_10p0 = val.f32_value;
-    ++idx;
-    val.u32_value = be32_to_cpu(data[idx].u32_value);
-    measurement->nc_0p5 = val.f32_value;
-    ++idx;
-    val.u32_value = be32_to_cpu(data[idx].u32_value);
-    measurement->nc_1p0 = val.f32_value;
-    ++idx;
-    val.u32_value = be32_to_cpu(data[idx].u32_value);
-    measurement->nc_2p5 = val.f32_value;
-    ++idx;
-    val.u32_value = be32_to_cpu(data[idx].u32_value);
-    measurement->nc_4p0 = val.f32_value;
-    ++idx;
-    val.u32_value = be32_to_cpu(data[idx].u32_value);
-    measurement->nc_10p0 = val.f32_value;
-    ++idx;
-    val.u32_value = be32_to_cpu(data[idx].u32_value);
-    measurement->typical_particle_size = val.f32_value;
+    measurement->mc_1p0 = sensirion_bytes_to_float(data[0]);
+    measurement->mc_2p5 = sensirion_bytes_to_float(data[1]);
+    measurement->mc_4p0 = sensirion_bytes_to_float(data[2]);
+    measurement->mc_10p0 = sensirion_bytes_to_float(data[3]);
+    measurement->nc_0p5 = sensirion_bytes_to_float(data[4]);
+    measurement->nc_1p0 = sensirion_bytes_to_float(data[5]);
+    measurement->nc_2p5 = sensirion_bytes_to_float(data[6]);
+    measurement->nc_4p0 = sensirion_bytes_to_float(data[7]);
+    measurement->nc_10p0 = sensirion_bytes_to_float(data[8]);
+    measurement->typical_particle_size = sensirion_bytes_to_float(data[9]);
 
-    if (header.state)
+    if (header.state) {
         return SPS30_ERR_STATE(header.state);
+    }
 
     return 0;
 }
