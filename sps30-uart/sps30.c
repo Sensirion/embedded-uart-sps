@@ -155,14 +155,15 @@ int16_t sps30_get_fan_auto_cleaning_interval(uint32_t* interval_seconds) {
     struct sensirion_shdlc_rx_header header;
     uint8_t tx_data[] = {SPS30_SUBCMD_READ_FAN_CLEAN_INTV};
     int16_t ret;
+    uint8_t data[4];
 
     ret = sensirion_shdlc_xcv(
         SPS30_ADDR, SPS30_CMD_FAN_CLEAN_INTV, sizeof(tx_data), tx_data,
-        sizeof(*interval_seconds), &header, (uint8_t*)interval_seconds);
+        sizeof(*interval_seconds), &header, (uint8_t*)data);
     if (ret < 0)
         return ret;
 
-    *interval_seconds = be32_to_cpu(*interval_seconds);
+    *interval_seconds = sensirion_bytes_to_uint32_t(data);
 
     if (header.state)
         return SPS30_ERR_STATE(header.state);
