@@ -59,6 +59,28 @@ extern "C" {
      (0xffffffff & ((uint64_t)be32_to_cpu((s) >> 32))))
 #endif
 
+/**
+ * sensirion_bytes_to_uint32_t() - Convert an array of bytes to an uint32_t
+ *
+ * Convert an array of bytes received from the sensor in big-endian/MSB-first
+ * format to an uint32_t value in the correct system-endianness.
+ *
+ * @param bytes An array of at least four bytes (MSB first)
+ * @return      The byte array represented as uint32_t
+ */
+uint32_t sensirion_bytes_to_uint32_t(const uint8_t* bytes);
+
+/**
+ * sensirion_bytes_to_float() - Convert an array of bytes to a float
+ *
+ * Convert an array of bytes received from the sensor in big-endian/MSB-first
+ * format to an float value in the correct system-endianness.
+ *
+ * @param bytes An array of at least four bytes (MSB first)
+ * @return      The byte array represented as float
+ */
+float sensirion_bytes_to_float(const uint8_t* bytes);
+
 struct sensirion_shdlc_rx_header {
     uint8_t addr;
     uint8_t cmd;
