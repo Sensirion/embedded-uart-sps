@@ -37,7 +37,7 @@
 #define SPS30_ADDR 0x00
 #define SPS30_CMD_START_MEASUREMENT 0x00
 #define SPS30_CMD_STOP_MEASUREMENT 0x01
-#define SPS30_SUBCMD_MEASUREMENT_START                                         \
+#define SPS30_SUBCMD_MEASUREMENT_START \
     { 0x01, 0x03 }
 #define SPS30_CMD_READ_MEASUREMENT 0x03
 #define SPS30_CMD_SLEEP 0x10
@@ -47,13 +47,13 @@
 #define SPS30_SUBCMD_READ_FAN_CLEAN_INTV 0x00
 #define SPS30_CMD_START_FAN_CLEANING 0x56
 #define SPS30_CMD_DEV_INFO 0xd0
-#define SPS30_CMD_DEV_INFO_SUBCMD_GET_SERIAL                                   \
+#define SPS30_CMD_DEV_INFO_SUBCMD_GET_SERIAL \
     { 0x03 }
 #define SPS30_CMD_READ_VERSION 0xd1
 #define SPS30_CMD_RESET 0xd3
 #define SPS30_ERR_STATE(state) (SPS30_ERR_STATE_MASK | (state))
 
-const char *sps_get_driver_version(void) {
+const char* sps_get_driver_version(void) {
     return SPS_DRV_VERSION_STR;
 }
 
@@ -66,14 +66,14 @@ int16_t sps30_probe(void) {
     return ret;
 }
 
-int16_t sps30_get_serial(char *serial) {
+int16_t sps30_get_serial(char* serial) {
     struct sensirion_shdlc_rx_header header;
     uint8_t param_buf[] = SPS30_CMD_DEV_INFO_SUBCMD_GET_SERIAL;
     int16_t ret;
 
     ret = sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_DEV_INFO, sizeof(param_buf),
                               param_buf, SPS30_MAX_SERIAL_LEN, &header,
-                              (uint8_t *)serial);
+                              (uint8_t*)serial);
     if (ret < 0)
         return ret;
 
@@ -98,7 +98,7 @@ int16_t sps30_stop_measurement(void) {
                                0, &header, NULL);
 }
 
-int16_t sps30_read_measurement(struct sps30_measurement *measurement) {
+int16_t sps30_read_measurement(struct sps30_measurement* measurement) {
     struct sensirion_shdlc_rx_header header;
     int16_t ret;
     uint16_t idx;
@@ -109,7 +109,7 @@ int16_t sps30_read_measurement(struct sps30_measurement *measurement) {
     } val, data[10];
 
     ret = sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_READ_MEASUREMENT, 0, NULL,
-                              sizeof(data), &header, (uint8_t *)data);
+                              sizeof(data), &header, (uint8_t*)data);
     if (ret)
         return ret;
 
@@ -173,14 +173,14 @@ int16_t sps30_wake_up(void) {
                                &header, NULL);
 }
 
-int16_t sps30_get_fan_auto_cleaning_interval(uint32_t *interval_seconds) {
+int16_t sps30_get_fan_auto_cleaning_interval(uint32_t* interval_seconds) {
     struct sensirion_shdlc_rx_header header;
     uint8_t tx_data[] = {SPS30_SUBCMD_READ_FAN_CLEAN_INTV};
     int16_t ret;
 
     ret = sensirion_shdlc_xcv(
         SPS30_ADDR, SPS30_CMD_FAN_CLEAN_INTV, sizeof(tx_data), tx_data,
-        sizeof(*interval_seconds), &header, (uint8_t *)interval_seconds);
+        sizeof(*interval_seconds), &header, (uint8_t*)interval_seconds);
     if (ret < 0)
         return ret;
 
@@ -203,11 +203,11 @@ int16_t sps30_set_fan_auto_cleaning_interval(uint32_t interval_seconds) {
         cleaning_command[ix + 1] = (uint8_t)(value >> (8 * ix));
     return sensirion_shdlc_xcv(
         SPS30_ADDR, SPS30_CMD_FAN_CLEAN_INTV, sizeof(cleaning_command),
-        (const uint8_t *)cleaning_command, sizeof(interval_seconds), &header,
-        (uint8_t *)&interval_seconds);
+        (const uint8_t*)cleaning_command, sizeof(interval_seconds), &header,
+        (uint8_t*)&interval_seconds);
 }
 
-int16_t sps30_get_fan_auto_cleaning_interval_days(uint8_t *interval_days) {
+int16_t sps30_get_fan_auto_cleaning_interval_days(uint8_t* interval_days) {
     int16_t ret;
     uint32_t interval_seconds;
 
@@ -232,7 +232,7 @@ int16_t sps30_start_manual_fan_cleaning(void) {
 }
 
 int16_t
-sps30_read_version(struct sps30_version_information *version_information) {
+sps30_read_version(struct sps30_version_information* version_information) {
     struct sensirion_shdlc_rx_header header;
     int16_t error;
     uint8_t data[7];

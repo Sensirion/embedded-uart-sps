@@ -83,7 +83,7 @@ extern "C" {
 #define SENSIRION_BIG_ENDIAN 0
 
 #ifndef NULL
-#define NULL ((void *)0)
+#define NULL ((void*)0)
 #endif
 
 #ifdef __cplusplus

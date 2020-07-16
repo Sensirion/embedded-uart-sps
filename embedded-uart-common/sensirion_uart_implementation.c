@@ -77,7 +77,7 @@ int16_t sensirion_uart_close() {
  * @data:       data to send
  * Return:      Number of bytes sent or a negative error code
  */
-int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
+int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t* data) {
     // TODO: implement
     return 0;
 }
@@ -89,7 +89,7 @@ int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
  * @data:       Memory where received data is stored
  * Return:      Number of bytes received or a negative error code
  */
-int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
+int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t* data) {
     // TODO: implement
     return 0;
 }

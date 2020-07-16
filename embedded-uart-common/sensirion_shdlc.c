@@ -46,7 +46,7 @@
 #define RX_DELAY_US 20000
 
 static uint8_t sensirion_shdlc_crc(uint8_t header_sum, uint8_t data_len,
-                                   const uint8_t *data) {
+                                   const uint8_t* data) {
     header_sum += data_len;
 
     while (data_len--)
@@ -56,8 +56,8 @@ static uint8_t sensirion_shdlc_crc(uint8_t header_sum, uint8_t data_len,
 }
 
 static uint16_t sensirion_shdlc_stuff_data(uint8_t data_len,
-                                           const uint8_t *data,
-                                           uint8_t *stuffed_data) {
+                                           const uint8_t* data,
+                                           uint8_t* stuffed_data) {
     uint16_t output_data_len = 0;
     uint8_t c;
 
@@ -101,9 +101,9 @@ static uint8_t sensirion_shdlc_unstuff_byte(uint8_t data) {
 }
 
 int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len,
-                            const uint8_t *tx_data, uint8_t max_rx_data_len,
-                            struct sensirion_shdlc_rx_header *rx_header,
-                            uint8_t *rx_data) {
+                            const uint8_t* tx_data, uint8_t max_rx_data_len,
+                            struct sensirion_shdlc_rx_header* rx_header,
+                            uint8_t* rx_data) {
     int16_t ret;
 
     ret = sensirion_shdlc_tx(addr, cmd, tx_data_len, tx_data);
@@ -115,7 +115,7 @@ int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len,
 }
 
 int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len,
-                           const uint8_t *data) {
+                           const uint8_t* data) {
     uint16_t len = 0;
     int16_t ret;
     uint8_t crc;
@@ -140,12 +140,12 @@ int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len,
 }
 
 int16_t sensirion_shdlc_rx(uint8_t max_data_len,
-                           struct sensirion_shdlc_rx_header *rxh,
-                           uint8_t *data) {
+                           struct sensirion_shdlc_rx_header* rxh,
+                           uint8_t* data) {
     int16_t len;
     uint16_t i;
     uint8_t rx_frame[SHDLC_FRAME_MAX_RX_FRAME_SIZE];
-    uint8_t *rx_header = (uint8_t *)rxh;
+    uint8_t* rx_header = (uint8_t*)rxh;
     uint8_t j;
     uint8_t crc;
     uint8_t unstuff_next;
