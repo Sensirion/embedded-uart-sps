@@ -46,19 +46,6 @@ extern "C" {
 #define SENSIRION_SHDLC_ERR_TX_INCOMPLETE -6
 #define SENSIRION_SHDLC_ERR_FRAME_TOO_LONG -7
 
-#if SENSIRION_BIG_ENDIAN
-#define be16_to_cpu(s) (s)
-#define be32_to_cpu(s) (s)
-#define be64_to_cpu(s) (s)
-#else
-#define be16_to_cpu(s) (((uint16_t)(s) << 8) | (0xff & ((uint16_t)(s)) >> 8))
-#define be32_to_cpu(s) \
-    (((uint32_t)be16_to_cpu(s) << 16) | (0xffff & (be16_to_cpu((s) >> 16))))
-#define be64_to_cpu(s)                  \
-    (((uint64_t)be32_to_cpu(s) << 32) | \
-     (0xffffffff & ((uint64_t)be32_to_cpu((s) >> 32))))
-#endif
-
 /**
  * sensirion_bytes_to_uint32_t() - Convert an array of bytes to an uint32_t
  *
