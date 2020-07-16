@@ -81,6 +81,17 @@ uint32_t sensirion_bytes_to_uint32_t(const uint8_t* bytes);
  */
 float sensirion_bytes_to_float(const uint8_t* bytes);
 
+/**
+ * sensirion_uint32_t_to_bytes() - Convert an uint32_t to an array of bytes
+ *
+ * Convert an uint33_t value in system-endianness to big-endian/MBS-first
+ * format to send to the sensor.
+ *
+ * @param value Value to convert
+ * @param bytes An array of at least four bytes
+ */
+void sensirion_uint32_t_to_bytes(uint32_t value, uint8_t* bytes);
+
 struct sensirion_shdlc_rx_header {
     uint8_t addr;
     uint8_t cmd;
