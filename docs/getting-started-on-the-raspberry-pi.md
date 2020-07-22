@@ -51,10 +51,11 @@ $ cd sps30-uart-3.1.0
 $ cp sample-implementations/linux/sensirion_uart_implementation.c sensirion_uart_implementation.c
 ```
 
-Then in `sensirion_uart_implementation.c` change the line with `#define TTYDEV`
-to match the device you got from the step before.
+Then in `sensirion_uart_implementation.c` change the line with
+`#define SENSIRION_UART_TTYDEV` to match the device you got from the step
+before.
 ```c
-#define TTYDEV "/dev/ttyUSB0"
+#define SENSIRION_UART_TTYDEV "/dev/ttyUSB0"
 ```
 
 ## Compile and Run

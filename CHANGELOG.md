@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  * [`changed`] Use configuration independent endianness conversions: no need to
                define `SENSIRION_BIG_ENDIAN` anymore.
+ * [`changed`] Allow to override the TTY device to use in the Linux UART sample
+               implementation.
 
 ## [3.1.0] - 2020-07-03
 
