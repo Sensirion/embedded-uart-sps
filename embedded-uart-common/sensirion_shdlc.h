@@ -46,18 +46,38 @@ extern "C" {
 #define SENSIRION_SHDLC_ERR_TX_INCOMPLETE -6
 #define SENSIRION_SHDLC_ERR_FRAME_TOO_LONG -7
 
-#if SENSIRION_BIG_ENDIAN
-#define be16_to_cpu(s) (s)
-#define be32_to_cpu(s) (s)
-#define be64_to_cpu(s) (s)
-#else
-#define be16_to_cpu(s) (((uint16_t)(s) << 8) | (0xff & ((uint16_t)(s)) >> 8))
-#define be32_to_cpu(s) \
-    (((uint32_t)be16_to_cpu(s) << 16) | (0xffff & (be16_to_cpu((s) >> 16))))
-#define be64_to_cpu(s)                  \
-    (((uint64_t)be32_to_cpu(s) << 32) | \
-     (0xffffffff & ((uint64_t)be32_to_cpu((s) >> 32))))
-#endif
+/**
+ * sensirion_bytes_to_uint32_t() - Convert an array of bytes to an uint32_t
+ *
+ * Convert an array of bytes received from the sensor in big-endian/MSB-first
+ * format to an uint32_t value in the correct system-endianness.
+ *
+ * @param bytes An array of at least four bytes (MSB first)
+ * @return      The byte array represented as uint32_t
+ */
+uint32_t sensirion_bytes_to_uint32_t(const uint8_t* bytes);
+
+/**
+ * sensirion_bytes_to_float() - Convert an array of bytes to a float
+ *
+ * Convert an array of bytes received from the sensor in big-endian/MSB-first
+ * format to an float value in the correct system-endianness.
+ *
+ * @param bytes An array of at least four bytes (MSB first)
+ * @return      The byte array represented as float
+ */
+float sensirion_bytes_to_float(const uint8_t* bytes);
+
+/**
+ * sensirion_uint32_t_to_bytes() - Convert an uint32_t to an array of bytes
+ *
+ * Convert an uint33_t value in system-endianness to big-endian/MBS-first
+ * format to send to the sensor.
+ *
+ * @param value Value to convert
+ * @param bytes An array of at least four bytes
+ */
+void sensirion_uint32_t_to_bytes(uint32_t value, uint8_t* bytes);
 
 struct sensirion_shdlc_rx_header {
     uint8_t addr;

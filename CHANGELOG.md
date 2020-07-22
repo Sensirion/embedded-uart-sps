@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+ * [`changed`] Use configuration independent endianness conversions: no need to
+               define `SENSIRION_BIG_ENDIAN` anymore.
+
 ## [3.1.0] - 2020-07-03
 
  * [`added`]   Get version information with `sps30_read_version` 

@@ -45,6 +45,28 @@
 
 #define RX_DELAY_US 20000
 
+uint32_t sensirion_bytes_to_uint32_t(const uint8_t* bytes) {
+    return (uint32_t)bytes[0] << 24 | (uint32_t)bytes[1] << 16 |
+           (uint32_t)bytes[2] << 8 | (uint32_t)bytes[3];
+}
+
+float sensirion_bytes_to_float(const uint8_t* bytes) {
+    union {
+        uint32_t u32_value;
+        float float32;
+    } tmp;
+
+    tmp.u32_value = sensirion_bytes_to_uint32_t(bytes);
+    return tmp.float32;
+}
+
+void sensirion_uint32_t_to_bytes(uint32_t value, uint8_t* bytes) {
+    bytes[0] = value >> 24;
+    bytes[1] = value >> 16;
+    bytes[2] = value >> 8;
+    bytes[3] = value;
+}
+
 static uint8_t sensirion_shdlc_crc(uint8_t header_sum, uint8_t data_len,
                                    const uint8_t* data) {
     header_sum += data_len;
