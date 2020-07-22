@@ -4,12 +4,13 @@ jobs:
   build:
 
     docker:
-      - image: sensirion/embedded-ci:2.0.0
+      - image: sensirion/embedded-ci:2.1.0
     steps:
       - checkout
       - run: make prepare
       - run: make
       - run: make clean
+      - run: make style-check
       - run: make release
       - run:
           name: build stub release drivers
@@ -26,7 +27,7 @@ jobs:
 
   deploy:
     docker:
-      - image: sensirion/embedded-ci:2.0.0
+      - image: sensirion/embedded-ci:2.1.0
     steps:
       - checkout
       - run: make release

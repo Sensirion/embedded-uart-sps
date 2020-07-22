@@ -52,10 +52,10 @@ extern "C" {
 #define be64_to_cpu(s) (s)
 #else
 #define be16_to_cpu(s) (((uint16_t)(s) << 8) | (0xff & ((uint16_t)(s)) >> 8))
-#define be32_to_cpu(s)                                                         \
+#define be32_to_cpu(s) \
     (((uint32_t)be16_to_cpu(s) << 16) | (0xffff & (be16_to_cpu((s) >> 16))))
-#define be64_to_cpu(s)                                                         \
-    (((uint64_t)be32_to_cpu(s) << 32) |                                        \
+#define be64_to_cpu(s)                  \
+    (((uint64_t)be32_to_cpu(s) << 32) | \
      (0xffffffff & ((uint64_t)be32_to_cpu((s) >> 32))))
 #endif
 
@@ -76,7 +76,7 @@ struct sensirion_shdlc_rx_header {
  * Return:      0 on success, an error code otherwise
  */
 int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len,
-                           const uint8_t *data);
+                           const uint8_t* data);
 
 /**
  * sensirion_shdlc_rx() - receive an SHDLC frame
@@ -90,8 +90,8 @@ int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len,
  * Return:      0 on success, an error code otherwise
  */
 int16_t sensirion_shdlc_rx(uint8_t max_data_len,
-                           struct sensirion_shdlc_rx_header *header,
-                           uint8_t *data);
+                           struct sensirion_shdlc_rx_header* header,
+                           uint8_t* data);
 
 /**
  * sensirion_shdlc_xcv() - transceive (transmit then receive) an SHDLC frame
@@ -108,9 +108,9 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
  * Return:          0 on success, an error code otherwise
  */
 int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len,
-                            const uint8_t *tx_data, uint8_t max_rx_data_len,
-                            struct sensirion_shdlc_rx_header *rx_header,
-                            uint8_t *rx_data);
+                            const uint8_t* tx_data, uint8_t max_rx_data_len,
+                            struct sensirion_shdlc_rx_header* rx_header,
+                            uint8_t* rx_data);
 
 #ifdef __cplusplus
 }

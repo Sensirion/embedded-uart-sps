@@ -99,18 +99,18 @@ int16_t sensirion_uart_release() {
     return close(uart_fd);
 }
 
-int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
+int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t* data) {
     if (uart_fd == -1)
         return -1;
 
-    return write(uart_fd, (void *)data, data_len);
+    return write(uart_fd, (void*)data, data_len);
 }
 
-int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
+int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t* data) {
     if (uart_fd == -1)
         return -1;
 
-    return read(uart_fd, (void *)data, max_data_len);
+    return read(uart_fd, (void*)data, max_data_len);
 }
 void sensirion_sleep_usec(uint32_t useconds) {
     usleep(useconds);

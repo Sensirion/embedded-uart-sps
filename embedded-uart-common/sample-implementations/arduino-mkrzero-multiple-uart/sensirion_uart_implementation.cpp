@@ -56,7 +56,7 @@ void SERCOM4_Handler() {
 extern "C" {
 #endif
 
-static Uart *const ports[] = {&Serial2, &Serial3};
+static Uart* const ports[] = {&Serial2, &Serial3};
 static uint8_t cur_port = 0;
 
 /**
@@ -124,7 +124,7 @@ int16_t sensirion_uart_close() {
  * @data:       data to sendv v
  * Return:      Number of bytes sent or a negative error code
  */
-int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
+int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t* data) {
     return ports[cur_port]->write(data, data_len);
 }
 
@@ -135,7 +135,7 @@ int16_t sensirion_uart_tx(uint16_t data_len, const uint8_t *data) {
  * @data:       Memory where received data is stored
  * Return:      Number of bytes received or a negative error code
  */
-int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t *data) {
+int16_t sensirion_uart_rx(uint16_t max_data_len, uint8_t* data) {
     int16_t i;
 
     for (i = 0; ports[cur_port]->available() > 0 && i < max_data_len; ++i)
