@@ -88,14 +88,15 @@ int16_t sps30_start_measurement(void) {
     uint8_t param_buf[] = SPS30_SUBCMD_MEASUREMENT_START;
 
     return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_START_MEASUREMENT,
-                               sizeof(param_buf), param_buf, 0, &header, NULL);
+                               sizeof(param_buf), param_buf, 0, &header,
+                               (uint8_t*)NULL);
 }
 
 int16_t sps30_stop_measurement(void) {
     struct sensirion_shdlc_rx_header header;
 
-    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_STOP_MEASUREMENT, 0, NULL,
-                               0, &header, NULL);
+    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_STOP_MEASUREMENT, 0,
+                               (uint8_t*)NULL, 0, &header, (uint8_t*)NULL);
 }
 
 int16_t sps30_read_measurement(struct sps30_measurement* measurement) {
@@ -103,8 +104,9 @@ int16_t sps30_read_measurement(struct sps30_measurement* measurement) {
     int16_t error;
     uint8_t data[10][4];
 
-    error = sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_READ_MEASUREMENT, 0, NULL,
-                                sizeof(data), &header, (uint8_t*)data);
+    error = sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_READ_MEASUREMENT, 0,
+                                (uint8_t*)NULL, sizeof(data), &header,
+                                (uint8_t*)data);
     if (error) {
         return error;
     }
@@ -134,8 +136,8 @@ int16_t sps30_read_measurement(struct sps30_measurement* measurement) {
 int16_t sps30_sleep(void) {
     struct sensirion_shdlc_rx_header header;
 
-    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_SLEEP, 0, NULL, 0, &header,
-                               NULL);
+    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_SLEEP, 0, (uint8_t*)NULL,
+                               0, &header, (uint8_t*)NULL);
 }
 
 int16_t sps30_wake_up(void) {
@@ -147,8 +149,8 @@ int16_t sps30_wake_up(void) {
     if (ret < 0) {
         return ret;
     }
-    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_WAKE_UP, 0, NULL, 0,
-                               &header, NULL);
+    return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_WAKE_UP, 0, (uint8_t*)NULL,
+                               0, &header, (uint8_t*)NULL);
 }
 
 int16_t sps30_get_fan_auto_cleaning_interval(uint32_t* interval_seconds) {
@@ -180,7 +182,7 @@ int16_t sps30_set_fan_auto_cleaning_interval(uint32_t interval_seconds) {
 
     return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_FAN_CLEAN_INTV,
                                sizeof(cleaning_command), cleaning_command, 0,
-                               &header, NULL);
+                               &header, (uint8_t*)NULL);
 }
 
 int16_t sps30_get_fan_auto_cleaning_interval_days(uint8_t* interval_days) {
@@ -204,7 +206,7 @@ int16_t sps30_start_manual_fan_cleaning(void) {
     struct sensirion_shdlc_rx_header header;
 
     return sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_START_FAN_CLEANING, 0,
-                               NULL, 0, &header, NULL);
+                               (uint8_t*)NULL, 0, &header, (uint8_t*)NULL);
 }
 
 int16_t
@@ -213,8 +215,8 @@ sps30_read_version(struct sps30_version_information* version_information) {
     int16_t error;
     uint8_t data[7];
 
-    error = sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_READ_VERSION, 0, NULL,
-                                sizeof(data), &header, data);
+    error = sensirion_shdlc_xcv(SPS30_ADDR, SPS30_CMD_READ_VERSION, 0,
+                                (uint8_t*)NULL, sizeof(data), &header, data);
     if (error) {
         return error;
     }
@@ -237,5 +239,5 @@ sps30_read_version(struct sps30_version_information* version_information) {
 }
 
 int16_t sps30_reset(void) {
-    return sensirion_shdlc_tx(SPS30_ADDR, SPS30_CMD_RESET, 0, NULL);
+    return sensirion_shdlc_tx(SPS30_ADDR, SPS30_CMD_RESET, 0, (uint8_t*)NULL);
 }
