@@ -3,3 +3,4 @@
 /sps30-uart/sps30_example_usage
 /sps30-uart/user_config.inc
 /sps-common/sps_git_version.c
+/tests/sps30-test-uart
