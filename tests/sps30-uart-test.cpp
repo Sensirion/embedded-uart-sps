@@ -16,7 +16,7 @@
 // Less or equal (<=) for float arithmetics with small error (1e-5)
 #define LEQ(l, u) ((l) - (u) < 1e-5)
 
-TEST_GROUP(SPS30_Test) {
+TEST_GROUP (SPS30_Test) {
     void setup() {
         int16_t error;
 
@@ -35,11 +35,11 @@ TEST_GROUP(SPS30_Test) {
     }
 };
 
-TEST(SPS30_Test, SPS30_probe) {
+TEST (SPS30_Test, SPS30_probe) {
     int16_t error;
 
     error = sps30_probe();
-    CHECK_ZERO_TEXT(error, "sps30_probe" );
+    CHECK_ZERO_TEXT(error, "sps30_probe");
     sensirion_sleep_usec(CMD_DELAY_USEC);
 }
 
@@ -50,7 +50,7 @@ TEST (SPS30_Test, SPS30_get_driver_version) {
     printf("sps30_get_driver_version: %s\n", version);
 }
 
-TEST(SPS30_Test, SPS30_get_serial) {
+TEST (SPS30_Test, SPS30_get_serial) {
     int16_t error;
     char serial[SPS30_MAX_SERIAL_LEN];
 
@@ -60,19 +60,19 @@ TEST(SPS30_Test, SPS30_get_serial) {
     printf("SPS30 serial: %s\n", serial);
 }
 
-TEST(SPS30_Test, SPS30_sleep_and_wake_up) {
+TEST (SPS30_Test, SPS30_sleep_and_wake_up) {
     int16_t error;
 
     error = sps30_sleep();
     CHECK_ZERO_TEXT(error, "SPS30_sleep");
     sensirion_sleep_usec(SLEEP_WAKE_UP_DELAY_USEC);
-    sensirion_sleep_usec(1000000); //let sensor sleep for some time
+    sensirion_sleep_usec(1000000);  // let sensor sleep for some time
     error = sps30_wake_up();
     CHECK_ZERO_TEXT(error, "SPS30_wake_up");
     sensirion_sleep_usec(SLEEP_WAKE_UP_DELAY_USEC);
 }
 
-TEST(SPS30_Test, SPS30_fan_auto_cleaning_interval) {
+TEST (SPS30_Test, SPS30_fan_auto_cleaning_interval) {
     int16_t error;
     uint32_t get_interval;
     uint32_t set_interval = 4 * 24 * 60 * 60;  // arbitrary
@@ -87,8 +87,7 @@ TEST(SPS30_Test, SPS30_fan_auto_cleaning_interval) {
                      "Fan auto cleaning intervals do not match");
 }
 
-
-TEST(SPS30_Test, SPS30_get_fan_auto_cleaning_interval_days) {
+TEST (SPS30_Test, SPS30_get_fan_auto_cleaning_interval_days) {
     int16_t error;
     uint8_t get_interval_days;
     uint8_t set_interval_days = 4;  // arbitrary
@@ -103,15 +102,14 @@ TEST(SPS30_Test, SPS30_get_fan_auto_cleaning_interval_days) {
                      "Fan auto cleaning interval days do not match");
 }
 
-
-TEST(SPS30_Test, SPS30_start_manual_fan_cleaning) {
+TEST (SPS30_Test, SPS30_start_manual_fan_cleaning) {
     int16_t error;
 
     error = sps30_start_manual_fan_cleaning();
     CHECK_ZERO_TEXT(error, "sps30_start_manual_fan_cleaning");
 }
 
-TEST(SPS30_Test, SPS30_read_version) {
+TEST (SPS30_Test, SPS30_read_version) {
     int16_t error;
     struct sps30_version_information version_information;
 
@@ -119,12 +117,14 @@ TEST(SPS30_Test, SPS30_read_version) {
     CHECK_ZERO_TEXT(error, "sps30_read_version");
     sensirion_sleep_usec(CMD_DELAY_USEC);
     printf("Firmware_Major: %i\nFirmware_Minor: %i\nHardware_revision: "
-            "%i\nSHDLC_Major: %i\nSHDLC_Minor: %i\n", version_information.firmware_major,
-            version_information.firmware_minor, version_information.hardware_revision,
-            version_information.shdlc_major, version_information.shdlc_minor);
+           "%i\nSHDLC_Major: %i\nSHDLC_Minor: %i\n",
+           version_information.firmware_major,
+           version_information.firmware_minor,
+           version_information.hardware_revision,
+           version_information.shdlc_major, version_information.shdlc_minor);
 }
 
-TEST(SPS30_Test, SPS30_reset) {
+TEST (SPS30_Test, SPS30_reset) {
     int16_t error;
 
     error = sps30_reset();
@@ -132,7 +132,7 @@ TEST(SPS30_Test, SPS30_reset) {
     sensirion_sleep_usec(CMD_DELAY_USEC);
 }
 
-TEST(SPS30_Test, SPS30_measurement) {
+TEST (SPS30_Test, SPS30_measurement) {
     int16_t error;
     struct sps30_measurement m;
 
@@ -160,14 +160,15 @@ TEST(SPS30_Test, SPS30_measurement) {
 
     // Check if mass concentration is rising monotonously
     CHECK_TRUE_TEXT(LEQ(SPS30_MIN_MC, m.mc_1p0) && LEQ(m.mc_1p0, m.mc_2p5) &&
-                    LEQ(m.mc_2p5, m.mc_4p0) && LEQ(m.mc_4p0, m.mc_10p0) &&
-                    LEQ(m.mc_10p0, SPS30_MAX_MC),
+                        LEQ(m.mc_2p5, m.mc_4p0) && LEQ(m.mc_4p0, m.mc_10p0) &&
+                        LEQ(m.mc_10p0, SPS30_MAX_MC),
                     "Mass concentration not rising monotonously");
 
     // Check if number concentration is rising monotonously
     CHECK_TRUE_TEXT(LEQ(SPS30_MIN_NC, m.nc_0p5) && LEQ(m.nc_0p5, m.nc_1p0) &&
-                    LEQ(m.nc_1p0, m.nc_2p5) && LEQ(m.nc_2p5, m.nc_4p0) &&
-                    LEQ(m.nc_4p0, m.nc_10p0) && LEQ(m.nc_10p0, SPS30_MAX_NC),
+                        LEQ(m.nc_1p0, m.nc_2p5) && LEQ(m.nc_2p5, m.nc_4p0) &&
+                        LEQ(m.nc_4p0, m.nc_10p0) &&
+                        LEQ(m.nc_10p0, SPS30_MAX_NC),
                     "Number concentration not rising monotonously");
 
     error = sps30_stop_measurement();
