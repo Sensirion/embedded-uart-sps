@@ -97,7 +97,7 @@ int16_t sensirion_uart_open() {
     return 0;
 }
 
-int16_t sensirion_uart_release() {
+int16_t sensirion_uart_close() {
     return close(uart_fd);
 }
 
