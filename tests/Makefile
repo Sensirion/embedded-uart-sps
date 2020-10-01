@@ -14,7 +14,7 @@ prepare:
 	cd ${sps_driver_dir} && $(MAKE) prepare
 
 sps30-test-uart: sps30-uart-test.cpp ${sps30_uart_sources} ${uart_sources} ${sensirion_test_sources}
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CXX) ${TTYDEV} $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
 	$(RM) ${sps30_test_binaries}
