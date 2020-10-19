@@ -119,7 +119,7 @@ void sensirion_uint32_t_to_bytes(const uint32_t value, uint8_t* bytes);
  * format to send to the sensor.
  *
  * @param value Value to convert
- * @param bytes An array of at least four bytes
+ * @param bytes An array of at least two bytes
  */
 void sensirion_uint16_t_to_bytes(const uint16_t value, uint8_t* bytes);
 
@@ -141,7 +141,7 @@ void sensirion_int32_t_to_bytes(const int32_t value, uint8_t* bytes);
  * format to send to the sensor.
  *
  * @param value Value to convert
- * @param bytes An array of at least four bytes
+ * @param bytes An array of at least two bytes
  */
 void sensirion_int16_t_to_bytes(const int16_t value, uint8_t* bytes);
 
