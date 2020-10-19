@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+ * [`added`]   Helper functions used by generated code to `sensirion_shdlc.*`.
  * [`changed`] Changed wrongly named function sensirion_uart_release in sample
                implementation for linux to sensirion_uart_close as defined in the
                headerfile `sensirion_uart.h`.
