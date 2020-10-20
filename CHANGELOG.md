@@ -5,10 +5,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
- * [`added`]   Helper functions used by generated code to `sensirion_shdlc.*`.
- * [`changed`] Changed wrongly named function sensirion_uart_release in sample
-               implementation for linux to sensirion_uart_close as defined in the
-               headerfile `sensirion_uart.h`.
+## [3.2.0] - 2020-10-20
+
+ * [`added`]   Add conversion functions for more types to `sensirion_shdlc.*`.
+ * [`changed`] Changed wrongly named function `sensirion_uart_release` in sample
+               implementation for linux to `sensirion_uart_close` as defined in
+               the headerfile `sensirion_uart.h`.
  * [`changed`] Use configuration independent endianness conversions: no need to
                define `SENSIRION_BIG_ENDIAN` anymore.
  * [`changed`] Allow to override the TTY device to use in the Linux UART sample
@@ -16,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.1.0] - 2020-07-03
 
- * [`added`]   Get version information with `sps30_read_version` 
+ * [`added`]   Get version information with `sps30_read_version`
  * [`added`]   Add sleep / wake-up support (FW version >= 2.0)
 
 ## [3.0.1] - 2020-07-01
@@ -68,7 +70,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Initial SHDLC UART release
  * Initial SPS30 release
 
-[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/3.1.0...master
+[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/3.2.0...master
+[3.1.0]: https://github.com/Sensirion/embedded-uart-sps/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/Sensirion/embedded-uart-sps/compare/3.0.1...3.1.0
 [3.0.1]: https://github.com/Sensirion/embedded-uart-sps/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/Sensirion/embedded-uart-sps/compare/2.0.0...3.0.0
