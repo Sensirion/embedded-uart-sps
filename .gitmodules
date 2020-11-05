@@ -1,0 +1,3 @@
+[submodule "embedded-common"]
+	path = embedded-common
+	url = git@github.com:Sensirion/embedded-common.git
