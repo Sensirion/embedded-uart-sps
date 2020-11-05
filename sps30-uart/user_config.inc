@@ -11,7 +11,8 @@
 
 ## The build paths can also be changed here if needed
 # sps_driver_dir = ..
-# sensirion_common_dir = ${sps_driver_dir}/embedded-uart-common
+# sensirion_common_dir = ${sps_driver_dir}/embedded-common/common
+# sensirion_shdlc_dir = ${sps_driver_dir}/embedded-common/shdlc
 # sps_common_dir = ${sps_driver_dir}/sps-common
 # sps30_uart_dir = ${sps_driver_dir}/sps30-uart
 
