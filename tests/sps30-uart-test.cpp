@@ -1,4 +1,5 @@
 #include "sensirion_test_setup.h"
+#include "sensirion_uart_hal.h"
 #include "sps30.h"
 
 // Measurement ranges according to datasheet
