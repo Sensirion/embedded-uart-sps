@@ -36,7 +36,7 @@
 extern "C" {
 #endif
 
-#include "sensirion_arch_config.h"
+#include "sensirion_config.h"
 
 #define SPS30_MAX_SERIAL_LEN 32
 #define SPS30_ERR_NOT_ENOUGH_DATA (-1)

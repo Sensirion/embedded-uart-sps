@@ -30,8 +30,9 @@
  */
 
 #include "sps30.h"
+#include "sensirion_common.h"
 #include "sensirion_shdlc.h"
-#include "sensirion_uart.h"
+#include "sensirion_uart_hal.h"
 #include "sps_git_version.h"
 
 #define SPS30_ADDR 0x00

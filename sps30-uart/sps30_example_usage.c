@@ -31,7 +31,7 @@
 
 #include <stdio.h>  // printf
 
-#include "sensirion_uart.h"
+#include "sensirion_uart_hal.h"
 #include "sps30.h"
 
 /**
