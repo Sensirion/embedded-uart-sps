@@ -7,6 +7,9 @@ jobs:
       - image: sensirion/embedded-ci:2.1.0
     steps:
       - checkout
+      - run:
+          name: update common repo
+          command: git submodule update --init
       - run: make prepare
       - run: make
       - run: make clean
