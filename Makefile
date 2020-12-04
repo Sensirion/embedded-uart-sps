@@ -1,4 +1,4 @@
-drivers=sps30-uart
+drivers=sps30-uart sen44-uart
 clean_drivers=$(foreach d, $(drivers), clean_$(d))
 release_drivers=$(foreach d, $(drivers), release/$(d))
 
@@ -33,7 +33,7 @@ $(release_drivers): sps-common/sps_git_version.c
 	echo 'sps_driver_dir = .' >> $${pkgdir}/user_config.inc && \
 	echo 'sensirion_common_dir = .' >> $${pkgdir}/user_config.inc && \
 	echo 'sps_common_dir = .' >> $${pkgdir}/user_config.inc && \
-	echo 'sps30_uart_dir = .' >> $${pkgdir}/user_config.inc && \
+	echo "$${driver%-uart}_uart_dir = ." >> $${pkgdir}/user_config.inc && \
 	cd "$${pkgdir}" && $(MAKE) $(MFLAGS) && $(MAKE) clean $(MFLAGS) && cd - && \
 	cd release && zip -r "$${pkgname}.zip" "$${pkgname}" && cd - && \
 	ln -sf $${pkgname} $@

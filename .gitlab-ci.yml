@@ -24,9 +24,15 @@ publish_failure:
 test:
   stage: build
   image:
-    name: registry.gitlab.sensirion.lokal/sensirion/docker/docker-rpi-testbed:1.1.0
-  tags:
-    - mso-sw-testbed-2
+    name: sensirion/embedded-ci:2.1.0
+  tags: [linux, docker]
   script:
-    - cd tests
-    - make test -e TTYDEV=-DSENSIRION_UART_TTYDEV=\\\"/dev/ttyUSB0\\\"
+    - make prepare
+    - make
+    - make clean
+    - make style-check
+    - make release
+    - (cd release/sps30-uart && make && make clean)
+    - (cd release/sps30-uart && make uart_sources=sample-implementations/linux/sensirion_uart_implementation.c && make clean)
+    - (cd release/sen44-uart && make && make clean)
+    - (cd release/sen44-uart && make uart_sources=sample-implementations/linux/sensirion_uart_implementation.c && make clean)

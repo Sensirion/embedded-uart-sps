@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+ * [`added`]   SEN44 Support
+
 ## [3.2.0] - 2020-10-20
 
  * [`added`]   Add conversion functions for more types to `sensirion_shdlc.*`.
