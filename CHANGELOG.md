@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.3.0] - 2020-12-07
+
  * [`added`]   SEN44 Support
 
 ## [3.2.0] - 2020-10-20
@@ -72,8 +74,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Initial SHDLC UART release
  * Initial SPS30 release
 
-[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/3.2.0...master
-[3.1.0]: https://github.com/Sensirion/embedded-uart-sps/compare/3.1.0...3.2.0
+[Unreleased]: https://github.com/Sensirion/embedded-uart-sps/compare/3.3.0...master
+[3.3.0]: https://github.com/Sensirion/embedded-uart-sps/compare/3.2.0...3.3.0
+[3.2.0]: https://github.com/Sensirion/embedded-uart-sps/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/Sensirion/embedded-uart-sps/compare/3.0.1...3.1.0
 [3.0.1]: https://github.com/Sensirion/embedded-uart-sps/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/Sensirion/embedded-uart-sps/compare/2.0.0...3.0.0
