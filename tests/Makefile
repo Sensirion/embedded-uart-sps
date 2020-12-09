@@ -25,4 +25,5 @@ clean:
 	$(RM) ${sps30_test_binaries} ${sen44_test_binaries}
 
 test: prepare ${sps30_test_binaries} ${sen44_test_binaries}
-	set -ex; for test in ${sps30_test_binaries} ${sen44_test_binaries}; do echo $${test}; ./$${test}; echo; done;
+	# TODO: SEN44 tests currently don't get executed since there is no device available
+	set -ex; for test in ${sps30_test_binaries}; do echo $${test}; ./$${test}; echo; done;
