@@ -13,15 +13,21 @@ jobs:
       - run: make style-check
       - run: make release
       - run:
-          name: build stub release drivers
+          name: build stub release drivers SPS30
+          command: (cd release/sps30-uart && make && make clean)
+      - run:
+          name: build stub release drivers SEN44
+          command: (cd release/sen44-uart && make && make clean)
+      - run:
+          name: build Linux release driver SPS30
           command: |
               (cd release/sps30-uart
-               make
+               make uart_sources=sample-implementations/linux/sensirion_uart_implementation.c
                make clean)
       - run:
-          name: build Linux release driver
+          name: build Linux release driver SEN44
           command: |
-              (cd release/sps30-uart
+              (cd release/sen44-uart
                make uart_sources=sample-implementations/linux/sensirion_uart_implementation.c
                make clean)
 
