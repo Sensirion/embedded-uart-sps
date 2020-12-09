@@ -25,8 +25,7 @@ test:
   stage: build
   image:
     name: registry.gitlab.sensirion.lokal/sensirion/docker/docker-rpi-testbed:1.1.0
-  tags:
-    - mso-sw-testbed-2
+  tags: [mso-sw-testbed-2]
   script:
     - cd tests
     - make test -e TTYDEV=-DSENSIRION_UART_TTYDEV=\\\"/dev/ttyUSB0\\\"
