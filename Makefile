@@ -26,7 +26,8 @@ $(release_drivers): sps-common/sps_git_version.c
 	export pkgname="$${driver}-$${tag}" && \
 	export pkgdir="release/$${pkgname}" && \
 	rm -rf "$${pkgdir}" && mkdir -p "$${pkgdir}" && \
-	cp -r embedded-uart-common/* "$${pkgdir}" && \
+	cp embedded-uart-common/*.[ch] "$${pkgdir}" && \
+	cp -r embedded-uart-common/sample-implementations "$${pkgdir}" && \
 	cp -r sps-common/* "$${pkgdir}" && \
 	cp -r $${driver}/* "$${pkgdir}" && \
 	cp CHANGELOG.md LICENSE "$${pkgdir}" && \
