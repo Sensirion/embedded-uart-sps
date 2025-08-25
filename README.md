@@ -1,3 +1,7 @@
+**Note: This repository is deprecated. Please use our new drivers:**
+* Uart: https://github.com/Sensirion/embedded-uart-sps30
+* I2C: https://github.com/Sensirion/embedded-i2c-sps30
+
 # embedded-uart-sps [![CircleCI](https://circleci.com/gh/Sensirion/embedded-uart-sps.svg?style=shield)](https://circleci.com/gh/Sensirion/embedded-uart-sps) [![GitHub license](https://img.shields.io/badge/license-BSD3-blue.svg)](https://raw.githubusercontent.com/Sensirion/embedded-uart-sps/master/LICENSE)
 This repository contains the embedded UART driver sources for Sensirion's
 SPS product line.
